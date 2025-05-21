@@ -20,6 +20,16 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN sed 's/\/.*com/\/\/mirrors.aliyun.com/g' /etc/apt/sources.list -i
 ```
 
+## pip代理配置
+
+```bash
+# 配置清华源
+pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+
+```
+
+
+
 ## git 代理配置
 
 ### 1、配置阿里云镜像
@@ -29,6 +39,20 @@ RUN sed 's/\/.*com/\/\/mirrors.aliyun.com/g' /etc/apt/sources.list -i
 git config --global url."https://gitclone.com/".insteadOf https://
 git clone https://github.com/user/repo.git
 ```
+
+## torch安装
+
+### 使用pip
+
+[reference](https://pytorch.org/get-started/previous-versions/)
+
+```bash
+# 安装指定版本 reference
+pip install torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cu118
+
+```
+
+
 
 ## Docker记录
 
