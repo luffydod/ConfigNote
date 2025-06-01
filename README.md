@@ -20,6 +20,10 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN sed 's/\/.*com/\/\/mirrors.aliyun.com/g' /etc/apt/sources.list -i
 ```
 
+手动换源：`vim /etc/apt/sources.list`
+
+参考：[清华源](https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/)
+
 ## pip代理配置
 
 ```bash
@@ -81,3 +85,9 @@ docker run -itd \
   --name demo1 \
   novnc:0.1
 ```
+
+## Docker镜像加速域名
+
+- docker.xuanyuan.me
+- 
+
