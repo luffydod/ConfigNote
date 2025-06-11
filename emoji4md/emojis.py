@@ -24,6 +24,7 @@ class Emoji4win11:
     SEEK_EMOJIS =  ['😵', '😷', '🤒', '🤕',
                     '🤢', '🤧', '🤮', '🤯', '🥴',
                     '🥵','🥶']
+    
     HAT_EMOJIS = ['🤠', '🥳', '🥸']
 
     GLASS_EMOJIS = ['😎', '🤓', '🧐']
