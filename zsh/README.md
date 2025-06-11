@@ -1,53 +1,53 @@
-# ZSH终端配置
+# 😼 ZSH终端配置
 
-## install zsh
+## 😵 install zsh
 
 ```bash
 sudo apt install zsh -y
 
-# 设置默认终端为zsh
+# 😋 设置默认终端为zsh
 chsh -s /bin/zsh
 ```
 
-## install oh-my-zsh
+## 😞 install oh-my-zsh
 
-[site](https://ohmyz.sh/#install)
+[😪 site](https://ohmyz.sh/#install)
 
 ```bash
-# via curl
+# 😻 via curl
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-# via wget
+# 🤠 via wget
 sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
-# via 国内curl镜像
+# 😳 via 国内curl镜像
 sh -c "$(curl -fsSL https://gitee.com/pocmon/ohmyzsh/raw/master/tools/install.sh)
 ```
 
-## oh-my-zsh主题配置
+## 😠 oh-my-zsh主题配置
 
 ```bash
-# 编辑配置
+# 😖 编辑配置
 vim ~/.zshrc
 
 ZSH_THEME="[NAME]"
 
 source ~/.zshrc
 
-# 内置主题
+# 😿 内置主题
 ls ~/.oh-my-zsh/themes
 ```
 
-### powerlevel10k
+### 🥴 powerlevel10k
 
 ```bash
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
-# 可以使用 gitee.com 上的官方镜像加速下载
+# 🥺 可以使用 gitee.com 上的官方镜像加速下载
 git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 ```
 
 在 ~/.zshrc 设置 ZSH_THEME="powerlevel10k/powerlevel10k"。接下来，终端会自动引导你配置 powerlevel10k。
 
-## oh-my-zsh插件
+## 🙊 oh-my-zsh插件
 
 内置插件可以在 `~/.oh-my-zsh/plugins` 中查看，自定义插件可以安装到 `~/.oh-my-zsh/custom/plugins` 目录。
 
@@ -56,12 +56,12 @@ git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$H
 ```bash
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 
-# 可以使用下面任意一个加速下载
-# 加速1
+# 😶 可以使用下面任意一个加速下载
+# 🤖 加速1
 git clone https://github.moeyy.xyz/https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-# 加速2
+# 💀 加速2
 git clone https://gh.xmly.dev/https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-# 加速3
+# 🤯 加速3
 git clone https://gh.api.99988866.xyz/https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
 
@@ -70,12 +70,12 @@ git clone https://gh.api.99988866.xyz/https://github.com/zsh-users/zsh-autosugge
 ```bash
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
-# 可以使用下面任意一个加速下载
-# 加速1
+# 😶 可以使用下面任意一个加速下载
+# 😞 加速1
 git clone https://github.moeyy.xyz/https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-# 加速2
+# 🥹 加速2
 git clone https://gh.xmly.dev/https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-# 加速3
+# 😂 加速3
 git clone https://gh.api.99988866.xyz/https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
 
@@ -84,15 +84,15 @@ git clone https://gh.api.99988866.xyz/https://github.com/zsh-users/zsh-syntax-hi
 ```bash
 git clone https://github.com/paulirish/git-open.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/git-open
 
-# 加速1
+# 🤪 加速1
 git clone https://github.moeyy.xyz/https://github.com/paulirish/git-open.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/git-open
 ```
 
-## zsh启用插件
+## 😩 zsh启用插件
 
 修改 `~/.zshrc` ：
 
 ```bash
-# 修改plugins
+# 😗 修改plugins
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting z extract git-open)
 ```
