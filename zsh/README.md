@@ -9,6 +9,13 @@ sudo apt install zsh -y
 chsh -s /bin/zsh
 ```
 
+## 注意事项
+
+- zsh 会对通配符（比如 *）进行 文件名扩展（globbing）
+  - 解决1：用引号包裹通配符
+  - 解决2：关闭 zsh 的 nomatch 检查 `setopt no_nomatch`
+- 1
+
 ## 😞 install oh-my-zsh
 
 [😪 site](https://ohmyz.sh/#install)

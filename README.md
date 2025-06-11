@@ -17,3 +17,7 @@ ConfigNote​ 是一个开发者实用工具配置笔记仓库，致力于整理
 
 - [😁 torch安装配置](torch/README.md)
 - [😧 pip换源配置](pip/README.md)
+
+## 😦 ros2
+
+- [🤢 ros2安装配置](ros/README.md)
