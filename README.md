@@ -1,5 +1,17 @@
 # ConfigNote
 
+~~差生文具多~~
+
+ConfigNote​ is a practical knowledge base for developers, curating configuration guides for frequently used development tools. 
+
+ConfigNote​ 是一个开发者实用工具配置笔记仓库，致力于整理开发过程中高频使用的工具配置指南。
+
+## tool list
+
+- [🧩 tmux终端配置](tmux/README.md) - 多窗口/会话管理指南  
+- [✨ zsh终端配置](zsh/README.md) - 主题插件与效率优化  
+- [👨‍💻 neovim编辑器配置](neovim/README.md) - 开发环境与快捷键大全
+
 ## Dockerfile配置
 
 ### 1、基础系统镜像源配置
