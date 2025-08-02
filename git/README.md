@@ -2,6 +2,19 @@
 
 ## 🤥 git 代理配置
 
+```bash
+# 查看当前代理配置
+git config --global --get http.proxy
+git config --global --get https.proxy
+
+git config --global http.proxy http://127.0.0.1:7897
+git config --global https.proxy http://127.0.0.1:7897
+
+# 取消代理配置
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+```
+
 ### 🤭 1、加速域名前缀
 
 ```bash
