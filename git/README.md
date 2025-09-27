@@ -36,3 +36,43 @@ git clone https://gh.api.99988866.xyz/https://github.com/*
 git config --global url."https://gitclone.com/".insteadOf https://
 git clone https://github.com/user/repo.git
 ```
+
+## git 配置 ssh 密钥
+
+1. 生成新的 ssh 密钥
+
+```bash
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+
+# 根据以下提示输入自定义目录
+Enter file in which to save the key (/home/youruser/.ssh/id_rsa):
+
+ls -al ~/.ssh
+
+# 示例输出
+my_custom_ssh_key
+my_custom_ssh_key.pub
+```
+
+2. 查看 ssh 公钥，添加到 git 平台
+
+```bash
+cat ~/.ssh/my_custom_ssh_key.pub
+```
+然后，前往 GitHub，进入 Settings > SSH and GPG keys > New SSH Key，粘贴公钥，保存即可。
+
+3. 配置自定义密钥文件
+
+```bash
+vim ~/.ssh/config
+
+# 添加以下内容
+Host github.com
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/my_custom_ssh_key
+
+```
+- `Host github.com`：这是一个别名，表示当你使用 git@github.com 时，自动匹配此配置。
+- `IdentityFile ~/.ssh/my_custom_ssh_key`：这是私钥的路径
+
