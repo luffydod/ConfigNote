@@ -76,3 +76,9 @@ Host github.com
 - `Host github.com`：这是一个别名，表示当你使用 git@github.com 时，自动匹配此配置。
 - `IdentityFile ~/.ssh/my_custom_ssh_key`：这是私钥的路径
 
+## clash verge规则配置
+
+问题：开启 `TUN` 模型下 git ssh 连接 22 或者 443 端口会拦截，导致 ssh 地址不通。
+
+匹配 github.com 且 目标端口为 22 (SSH) 的流量，让其直连
+- AND,((DOMAIN-SUFFIX,github.com),(DST-PORT,22)),DIRECT
