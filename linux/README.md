@@ -19,7 +19,7 @@ arch
 - `aarch64`: `arm64` 在 Linux 内核中的标准名称。
 - `x86_64`: 64 位的 Intel/AMD 架构（目前最常见的桌面和服务器 CPU 架构）。
 
-## 代理配置
+## Clash Verge 代理配置
 
 ### 安装 Clash Verge (.deb 文件)
 
@@ -73,5 +73,51 @@ rm -rf ~/.config/clash
 rm -rf ~/.cache/clash-verge/
 rm -rf ~/.local/share/clash-verge/
 ```
+
+## ShellCrash 代理安装配置
+
+[site](https://github.com/juewuy/ShellCrash)
+
+### 安装脚本说明
+
+安装时下载失败，替换了 `webget` 函数，直接手动下载了 `ShellCrash.tar.gz` 并放到了指定路径，可以参考安装脚本：[install_shellcrash.sh](./install_shellcrash.sh)
+
+### 启动服务
+
+手动下载 meta 核心：[CrashCore](https://github.com/juewuy/ShellCrash/tree/dev/bin/meta)，并手动移动到需要的执行目录：`/tmp/ShellCrash/CrashCore.tar.gz`。
+
+```bash
+配置文件加载完成！ 
+ 1 启动/重启服务
+ 2 内核功能设置
+ 3 停止内核服务
+ 4 内核启动设置
+ 5 配置自动任务
+ 6 导入配置文件
+ 7 内核进阶设置
+ 8 其他工具
+ 9 更新/卸载
+-----------------------------------------------
+ 0 退出脚本
+请输入对应数字 > 1
+-----------------------------------------------
+未找到【meta】核心，正在下载！
+curl: (35) OpenSSL SSL_connect: 连接被对方重置 in connection to fastly.jsdelivr.net:443                                                                              
+
+curl: (35) OpenSSL SSL_connect: 连接被对方重置 in connection to fastly.jsdelivr.net:443                                                                              
+
+tar (child): /tmp/ShellCrash/CrashCore.tar.gz：无法 open: 没有那个文件或目录
+tar (child): Error is not recoverable: exiting now
+tar: Child returned status 2
+tar: Error is not recoverable: exiting now
+chmod: 无法访问 '/tmp/ShellCrash/core_new': 没有那个文件或目录
+核心下载失败，请重新运行或更换安装源！
+```
+
+### 面板本地安装
+
+手动 [download](https://github.com/juewuy/ShellCrash/tree/dev/bin/dashboard)，然后解压到安装目录下的 `ui` 目录。
+
+比如：安装目录选择 `usr/share` 对应的 ui 目录：`/usr/share/ShellCrash/ui`
 
 ## to be continue
