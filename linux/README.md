@@ -120,4 +120,15 @@ chmod: 无法访问 '/tmp/ShellCrash/core_new': 没有那个文件或目录
 
 比如：安装目录选择 `usr/share` 对应的 ui 目录：`/usr/share/ShellCrash/ui`
 
+### 在线生成配置文件
+
+程序运行过程中提示/usr/share/ShellCrash/start.sh: 第 326 行： [: : 需要整数表达式
+
+修复建议：[start.sh](./start.sh)
+
+```bash
+# 在 get_core_config() 函数开始处添加 retry 变量的初始化：
+[ -z "$retry" ] && retry=0  # ✅ 添加这行来初始化 retry 变量
+```
+
 ## to be continue
