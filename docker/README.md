@@ -35,6 +35,8 @@ RUN sed 's/\/.*com/\/\/mirrors.aliyun.com/g' /etc/apt/sources.list -i
 
 参考：[💀 清华源](https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/)
 
+换源后 update 失败可能的现象 `No system certificates available. Try installing ca-certificates.` 需要换源前安装 `ca-certificates`。
+
 ## 容器 ssh 连接
 
 配置 ssh 服务
