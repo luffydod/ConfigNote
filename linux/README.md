@@ -24,13 +24,13 @@ arch
 1. 使用 [清华源镜像](https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/) 下载安装脚本
 
 ```bash
-wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda2-4.0.5-Linux-x86_64.sh
+wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-py310_24.9.2-0-Linux-x86_64.sh
 ```
 
 2. 运行安装脚本
 
 ```bash
-bash ./Miniconda2-4.0.5-Linux-x86_64.sh
+bash ./Miniconda3-py310_24.9.2-0-Linux-x86_64.sh
 ```
 
 3. 激活 conda 配置
@@ -41,10 +41,45 @@ source ~/.bashrc
 
 4. 配置镜像源
 
+直接编辑配置文件 `vim ~/.condarc`
+
+```yaml
+channels:
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r/
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2/
+  - defaults
+show_channel_urls: true
+default_channels:
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2
+custom_channels:
+  conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  nvidia: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+```
+
+此后执行创建环境或者安装依赖出现连接错误
+
 ```bash
-conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
-conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
-conda config --set show_channel_urls yes
+Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7f055c12c430>: Failed to establish a new connection: [Errno 101] Network is unreachable')': /pkgs/r/noarch/repodata.json.zst
+```
+
+一说解决方法是去除配置文件中的 `- defaults`.
+一说建议启动时加参数：--network=bridge 或 --dns 223.5.5.5，或确认宿主机有外网。
+
+刷新配置并确认是否生效
+
+```bash
+conda clean -i
+conda info
+```
+
+可选：设置 conda-forge 专用清华镜像（如果经常用）
+
+```bash
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/
 ```
 
 5. 通过 Conda 安装 mamba
@@ -63,6 +98,16 @@ Fetching package metadata: SSL verification error: [SSL: CERTIFICATE_VERIFY_FAIL
 # 解决：更新系统包环境
 apt-get update && apt-get install --reinstall ca-certificates
 update-ca-certificates
+
+# 配置环境变量
+# 首先查找 certifi 包提供的证书文件路径，通常类似于：
+# /root/miniconda2/lib/python2.7/site-packages/certifi/cacert.pem
+# 您可以使用 find 命令查找：
+find /root/miniconda2 -name "cacert.pem" -type f
+
+# 找到路径后，设置环境变量（请将路径替换为实际找到的路径）
+export SSL_CERT_FILE=/root/miniconda2/lib/python2.7/site-packages/certifi/cacert.pem
+# 可以将此设置写入 ~/.bashrc 或 ~/.profile 使其永久生效
 ```
 
 6. 
