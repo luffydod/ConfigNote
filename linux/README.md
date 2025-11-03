@@ -19,6 +19,54 @@ arch
 - `aarch64`: `arm64` 在 Linux 内核中的标准名称。
 - `x86_64`: 64 位的 Intel/AMD 架构（目前最常见的桌面和服务器 CPU 架构）。
 
+## MiniConda 安装配置
+
+1. 使用 [清华源镜像](https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/) 下载安装脚本
+
+```bash
+wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda2-4.0.5-Linux-x86_64.sh
+```
+
+2. 运行安装脚本
+
+```bash
+bash ./Miniconda2-4.0.5-Linux-x86_64.sh
+```
+
+3. 激活 conda 配置
+
+```bash
+source ~/.bashrc
+```
+
+4. 配置镜像源
+
+```bash
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+conda config --set show_channel_urls yes
+```
+
+5. 通过 Conda 安装 mamba
+
+```bash
+conda install -c conda-forge mamba
+```
+
+ssl 证书验证错误
+
+```bash
+root@b6ad3098a877:/home/root# conda install -c conda-forge mamba
+Fetching package metadata: SSL verification error: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:590)
+.SSL verification error: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:590)
+
+# 解决：更新系统包环境
+apt-get update && apt-get install --reinstall ca-certificates
+update-ca-certificates
+```
+
+6. 
+7. 
 ## Clash Verge 代理配置
 
 ### 安装 Clash Verge (.deb 文件)
