@@ -84,3 +84,26 @@ Host github.com
 
 匹配 github.com 且 目标端口为 22 (SSH) 的流量，让其直连
 - AND,((DOMAIN-SUFFIX,github.com),(DST-PORT,22)),DIRECT
+
+## git 批替换指定用户的提交信息
+
+```sh
+pip install git-filter-repo
+```
+
+```sh
+git filter-repo --force --commit-callback '
+    if commit.author_email == b"15735184899@163.com":
+        commit.author_name = b"allgoo"
+        commit.author_email = b"319377758@qq.com"
+    if commit.committer_email == b"15735184899@163.com":
+        commit.committer_name = b"allgoo"
+        commit.committer_email = b"319377758@qq.com"
+'
+```
+
+强制推送：
+```sh
+git push origin --force --all
+git push origin --force --tags
+```
