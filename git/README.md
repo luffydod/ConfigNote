@@ -44,6 +44,8 @@ git clone https://github.com/user/repo.git
 ```bash
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 
+ssh-keygen -t ed25519 -C "your_email@example.com"
+
 # 根据以下提示输入自定义目录
 Enter file in which to save the key (/home/youruser/.ssh/id_rsa):
 
