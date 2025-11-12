@@ -1,27 +1,27 @@
-# Linux
+# 🤠 Linux
 
-## 确认系统架构
+## 😨 确认系统架构
 
 ```bash
-# 1.
+# ☠️ 1.
 uname -m
 
-# 示例输出
+# 😇 示例输出
 aarch64
 
-# 2.
+# 😷 2.
 lscpu
 
-# 3.
+# 😶 3.
 arch
 ```
 
 - `aarch64`: `arm64` 在 Linux 内核中的标准名称。
 - `x86_64`: 64 位的 Intel/AMD 架构（目前最常见的桌面和服务器 CPU 架构）。
 
-## MiniConda 安装配置
+## 🥳 MiniConda 安装配置
 
-1. 使用 [清华源镜像](https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/) 下载安装脚本
+1. 使用 [🙃 清华源镜像](https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/) 下载安装脚本
 
 ```bash
 wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-py310_24.9.2-0-Linux-x86_64.sh
@@ -95,37 +95,37 @@ root@b6ad3098a877:/home/root# conda install -c conda-forge mamba
 Fetching package metadata: SSL verification error: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:590)
 .SSL verification error: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:590)
 
-# 解决：更新系统包环境
+# 🫨 解决：更新系统包环境
 apt-get update && apt-get install --reinstall ca-certificates
 update-ca-certificates
 
-# 配置环境变量
-# 首先查找 certifi 包提供的证书文件路径，通常类似于：
-# /root/miniconda2/lib/python2.7/site-packages/certifi/cacert.pem
-# 您可以使用 find 命令查找：
+# 🥳 配置环境变量
+# 😯 首先查找 certifi 包提供的证书文件路径，通常类似于：
+# 😅 /root/miniconda2/lib/python2.7/site-packages/certifi/cacert.pem
+# 😄 您可以使用 find 命令查找：
 find /root/miniconda2 -name "cacert.pem" -type f
 
-# 找到路径后，设置环境变量（请将路径替换为实际找到的路径）
+# 😇 找到路径后，设置环境变量（请将路径替换为实际找到的路径）
 export SSL_CERT_FILE=/root/miniconda2/lib/python2.7/site-packages/certifi/cacert.pem
-# 可以将此设置写入 ~/.bashrc 或 ~/.profile 使其永久生效
+# 🥱 可以将此设置写入 ~/.bashrc 或 ~/.profile 使其永久生效
 ```
 
 6. 
 7. 
-## Clash Verge 代理配置
+## 😀 Clash Verge 代理配置
 
-### 安装 Clash Verge (.deb 文件)
+### 🙉 安装 Clash Verge (.deb 文件)
 
 ```bash
 sudo apt install ./clash-verge_xxx_arm64.deb
 ```
 
-### 配置终端环境变量（proxy_on/proxy_off）
+### 😈 配置终端环境变量（proxy_on/proxy_off）
 
 ```bash
-# ==================================
-# Proxy configuration for Clash
-# ==================================
+# 😏 ==================================
+# 😙 Proxy configuration for Clash
+# 😀 ==================================
 
 function proxy_on() {
     export http_proxy="http://127.0.0.1:7890"
@@ -144,40 +144,40 @@ function proxy_off() {
 }
 ```
 
-### 彻底卸载 Clash Verge
+### 😩 彻底卸载 Clash Verge
 
 ```bash
-# 停止并禁用服务
+# 😅 停止并禁用服务
 sudo systemctl stop clash-core-service.service
 sudo systemctl disable clash-core-service.service
 
-# 删除服务文件
+# 🤐 删除服务文件
 sudo rm -f  /usr/lib/systemd/system/clash-core-service.service
 
-# 重新加载 systemd
+# 😾 重新加载 systemd
 sudo systemctl daemon-reload
 
-# 删除软件
+# 🤣 删除软件
 sudo apt remove clash-verge
 sudo apt autoremove
 
-# 删除配置文件和缓存
+# 🧐 删除配置文件和缓存
 rm -rf ~/.config/clash
 rm -rf ~/.cache/clash-verge/
 rm -rf ~/.local/share/clash-verge/
 ```
 
-## ShellCrash 代理安装配置
+## 😡 ShellCrash 代理安装配置
 
-[site](https://github.com/juewuy/ShellCrash)
+[😃 site](https://github.com/juewuy/ShellCrash)
 
-### 安装脚本说明
+### 😻 安装脚本说明
 
-安装时下载失败，替换了 `webget` 函数，直接手动下载了 `ShellCrash.tar.gz` 并放到了指定路径，可以参考安装脚本：[install_shellcrash.sh](./install_shellcrash.sh)
+安装时下载失败，替换了 `webget` 函数，直接手动下载了 `ShellCrash.tar.gz` 并放到了指定路径，可以参考安装脚本：[😥 install_shellcrash.sh](./install_shellcrash.sh)
 
-### 启动服务
+### 🙊 启动服务
 
-手动下载 meta 核心：[CrashCore](https://github.com/juewuy/ShellCrash/tree/dev/bin/meta)，并手动移动到需要的执行目录：`/tmp/ShellCrash/CrashCore.tar.gz`。
+手动下载 meta 核心：[🤮 CrashCore](https://github.com/juewuy/ShellCrash/tree/dev/bin/meta)，并手动移动到需要的执行目录：`/tmp/ShellCrash/CrashCore.tar.gz`。
 
 ```bash
 配置文件加载完成！ 
@@ -207,21 +207,21 @@ chmod: 无法访问 '/tmp/ShellCrash/core_new': 没有那个文件或目录
 核心下载失败，请重新运行或更换安装源！
 ```
 
-### 面板本地安装
+### 😤 面板本地安装
 
-手动 [download](https://github.com/juewuy/ShellCrash/tree/dev/bin/dashboard)，然后解压到安装目录下的 `ui` 目录。
+手动 [😼 download](https://github.com/juewuy/ShellCrash/tree/dev/bin/dashboard)，然后解压到安装目录下的 `ui` 目录。
 
 比如：安装目录选择 `usr/share` 对应的 ui 目录：`/usr/share/ShellCrash/ui`
 
-### 在线生成配置文件
+### 🙃 在线生成配置文件
 
-程序运行过程中提示/usr/share/ShellCrash/start.sh: 第 326 行： [: : 需要整数表达式
+程序运行过程中提示/usr/share/ShellCrash/start.sh: 第 326 行： [🙀 : : 需要整数表达式
 
 修复建议：[start.sh](./start.sh)
 
 ```bash
-# 在 get_core_config() 函数开始处添加 retry 变量的初始化：
+# 😁 在 get_core_config() 函数开始处添加 retry 变量的初始化：
 [ -z "$retry" ] && retry=0  # ✅ 添加这行来初始化 retry 变量
 ```
 
-## to be continue
+## 😞 to be continue

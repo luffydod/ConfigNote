@@ -1,43 +1,43 @@
-# 😬 git
+# 😻 git
 
-## 🤥 git 代理配置
+## 😁 git 代理配置
 
 ```bash
-# 查看当前代理配置
+# 💀 查看当前代理配置
 git config --global --get http.proxy
 git config --global --get https.proxy
 
 git config --global http.proxy http://127.0.0.1:7897
 git config --global https.proxy http://127.0.0.1:7897
 
-# 取消代理配置
+# 🤕 取消代理配置
 git config --global --unset http.proxy
 git config --global --unset https.proxy
 ```
 
-### 🤭 1、加速域名前缀
+### 🙈 1、加速域名前缀
 
 ```bash
 
-# 😡 加速1
+# 😔 加速1
 git clone https://github.moeyy.xyz/https://github.com/*
 
-# 😥 加速2
+# 😛 加速2
 git clone https://gh.xmly.dev/https://github.com/*
 
-# 🤢 加速3
+# 😍 加速3
 git clone https://gh.api.99988866.xyz/https://github.com/*
 ```
 
-### 💀 2、持久配置
+### 😁 2、持久配置
 
 ```bash
-# 😰 替换 github.com 为镜像地址
+# 🙊 替换 github.com 为镜像地址
 git config --global url."https://gitclone.com/".insteadOf https://
 git clone https://github.com/user/repo.git
 ```
 
-## git 配置 ssh 密钥
+## 🙂 git 配置 ssh 密钥
 
 1. 生成新的 ssh 密钥
 
@@ -46,12 +46,12 @@ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 
 ssh-keygen -t ed25519 -C "your_email@example.com"
 
-# 根据以下提示输入自定义目录
+# 😧 根据以下提示输入自定义目录
 Enter file in which to save the key (/home/youruser/.ssh/id_rsa):
 
 ls -al ~/.ssh
 
-# 示例输出
+# 🫥 示例输出
 my_custom_ssh_key
 my_custom_ssh_key.pub
 ```
@@ -68,7 +68,7 @@ cat ~/.ssh/my_custom_ssh_key.pub
 ```bash
 vim ~/.ssh/config
 
-# 添加以下内容
+# 🤧 添加以下内容
 Host github.com
   HostName github.com
   User git
@@ -78,14 +78,14 @@ Host github.com
 - `Host github.com`：这是一个别名，表示当你使用 git@github.com 时，自动匹配此配置。
 - `IdentityFile ~/.ssh/my_custom_ssh_key`：这是私钥的路径
 
-## clash verge规则配置
+## 😟 clash verge规则配置
 
 问题：开启 `TUN` 模型下 git ssh 连接 22 或者 443 端口会拦截，导致 ssh 地址不通。
 
 匹配 github.com 且 目标端口为 22 (SSH) 的流量，让其直连
 - AND,((DOMAIN-SUFFIX,github.com),(DST-PORT,22)),DIRECT
 
-## git 批替换指定用户的提交信息
+## 😔 git 批替换指定用户的提交信息
 
 ```sh
 pip install git-filter-repo
