@@ -98,3 +98,12 @@ Host myserver  # 自定义别名
     IdentityFile ~/.ssh/id_rsa  # 私钥路径
 ```
 
+## SSH 端口隧道
+
+```bash
+# 格式：ssh -L 本地端口:127.0.0.1:远程端口 用户名@服务器IP
+
+# 补充：用户名@服务器IP 也可以是通过 .ssh/config 配置的 Host 字段，服务器别名
+
+ssh -L 9999:127.0.0.1:9999 XA_A6000
+```
