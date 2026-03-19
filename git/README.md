@@ -1,5 +1,102 @@
 # 😻 git
 
+## Git代码同步：本地开发+服务器运行
+
+**裸仓库 + 自动化脚本（最规范、最稳定）**
+
+我们在服务器上建立一个专门用于中转的“裸仓库（Bare Repository）”，然后通过 Git Hook（钩子）在接收到本机的推送后，自动把代码部署到实际运行的项目目录中。
+
+1. 在服务器上创建裸仓库，只保存版本历史，专为代码同步而生。
+
+```bash
+# 建议在用户主目录下建一个专门放 git 仓库的文件夹
+mkdir -p ~/git-repos/myproject.git
+cd ~/git-repos/myproject.git
+git init --bare
+```
+
+2. 配置自动部署钩子 (Git Hook)，让这个裸仓库在收到代码时，自动把文件覆盖到你实际跑项目的目录。
+
+  - 进入钩子目录并创建 post-receive 文件：
+```bash
+cd ~/git-repos/myproject.git/hooks
+vim post-receive
+```
+  - 在文件中填入以下脚本（注意替换路径）：
+```bash
+#!/bin/sh
+# 将 /path/to/your/project 替换为你服务器上项目实际所在的绝对路径
+GIT_WORK_TREE=/path/to/your/project git checkout -f
+```
+  - 保存退出，并赋予脚本执行权限：
+```bash
+chmod +x post-receive
+```
+
+3. 在本机和服务器之间建立连接
+
+  - 如果你本机还没有代码，直接克隆这个裸仓库：
+```bash
+git clone username@server_ip:~/git-repos/myproject.git
+```
+  - 如果你本机已经有了开发好的代码，将其关联到服务器的裸仓库：
+```bash
+cd /path/to/local/project
+
+# 初始化 Git 仓库，这会在目录下生成一个隐藏的 .git 文件夹
+git init
+
+# 将你本地现有的所有项目代码添加到 Git 的暂存区
+git add .
+
+# 做第一次本地提交
+git commit -m "Initial commit for server monitor"
+
+# 添加服务器连接
+git remote add origin username@server_ip:~/git-repos/myproject.git
+git push -u origin master  # 或者 main
+```
+
+**补充**
+
+- 本地推送出现错误，分支命名问题
+
+```bash
+bangbang@menshiduodeMacBook-Air ~/c/server_monitor (main)> git push -u ori
+gin main
+Enumerating objects: 19, done.
+Counting objects: 100% (19/19), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (17/17), done.
+Writing objects: 100% (19/19), 23.92 KiB | 7.97 MiB/s, done.
+Total 19 (delta 0), reused 0 (delta 0), pack-reused 0
+remote: fatal: You are on a branch yet to be born
+To YG_A6000:/home/zwb/git-repos/server_monitor.git
+ * [new branch]      main -> main
+branch 'main' set up to track 'origin/main'.
+```
+
+当你用 git init --bare 初始化裸仓库时，它的默认分支指针（HEAD）通常指向 master。而你在 macOS 本地用的默认分支是 main。
+
+当代码推送上去后，钩子脚本执行 git checkout -f 时，它会尝试检出默认的 master 分支。但服务器上目前只有你刚推上来的 main 分支，master 分支连一个提交都没有（即“还未出生 / yet to be born”），所以 Git 拒绝了检出操作。
+
+登录你的服务器，进入裸仓库目录，然后修改 HEAD 指针：
+
+```bash
+cd /home/zwb/git-repos/server_monitor.git
+git symbolic-ref HEAD refs/heads/main
+```
+
+- 为了让以后的自动同步绝对稳定，不受你当前所在目录的干扰，建议把钩子脚本也改成这种显式指定绝对路径的方式。
+
+```bash
+vim /path/to/your/myproject.git/hooks/post-receive
+
+#!/bin/sh
+# 显式指定工作树和仓库路径，确保在任何环境下都能执行成功
+git --work-tree=/path/to/your/myproject --git-dir=/path/to/your/myproject.git checkout -f main
+```
+
 ## 😁 git 代理配置
 
 ```bash
