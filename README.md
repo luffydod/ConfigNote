@@ -1,23 +1,13 @@
-# 🥲 ConfigNote
+# ConfigNote
 
-~~差生文具多~~
+> 📚 整理日常开发过程中高频使用的工具配置指南，沉淀可复用的开发环境配置方案。
 
-ConfigNote​ is a practical knowledge base for developers, curating configuration guides for frequently used development tools.
+[![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue?logo=github)](https://luffydod.github.io/ConfigNote)
 
-ConfigNote​ 是一个开发者实用工具配置笔记仓库，致力于整理开发过程中高频使用的工具配置指南。
+项目文档已通过 GitHub Pages 构建，可直接在线浏览，无需本地复杂配置：
+👉 **在线文档地址**：[https://luffydod.github.io/ConfigNote](https://luffydod.github.io/ConfigNote)
 
-## 🥱 tool list
-
-- [☺️ git配置](git/README.md)
-- [😀 tmux终端配置](tmux/README.md)
-- [🥴 zsh终端配置](zsh/README.md)
-- [☹️ neovim编辑器配置](neovim/README.md)
-
-## 👹 py list
-
-- [🤡 torch安装配置](torch/README.md)
-- [🤬 pip换源配置](pip/README.md)
-
-## 😜 ros2
-
-- [🫡 ros2安装配置](ros/README.md)
+## 🔄 维护与更新
+本项目由我个人持续维护，若你有**新的工具配置需求**、**发现配置错误**或**有优化建议**，欢迎：
+1. 在 [Issues](https://github.com/luffydod/ConfigNote/issues) 中提出；
+2. 提交 [Pull Request](https://github.com/luffydod/ConfigNote/pulls) 贡献配置内容。
