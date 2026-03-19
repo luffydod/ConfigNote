@@ -62,13 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Markdown Rendering Setup ---
-    marked.setOptions({
-        highlight: function(code, lang) {
-            const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-            return hljs.highlight(code, { language }).value;
-        },
-        langPrefix: 'hljs language-', // highlight.js css expects a top-level 'hljs' class.
-    });
 
     // Handle relative links in markdown (intercept links to other .md files)
     const renderer = new marked.Renderer();
@@ -123,6 +116,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // Parse Markdown to HTML
             const html = marked.parse(text);
             markdownContent.innerHTML = html;
+            
+            markdownContent.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightElement(block);
+            });
             
             buildTableOfContents();
             addCopyButtons();
