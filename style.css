@@ -434,3 +434,74 @@ a:hover {
         padding: 1.5rem;
     }
 }
+
+/* TOC Sidebar Layout */
+.note-container {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.markdown-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.toc-sidebar {
+    width: 250px;
+    position: sticky;
+    top: 5rem;
+    max-height: calc(100vh - 8rem);
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.toc-title {
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+#toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#toc-list li {
+    margin-bottom: 0.5rem;
+}
+
+#toc-list a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    display: block;
+    transition: color 0.2s;
+    line-height: 1.4;
+}
+
+#toc-list a:hover {
+    color: var(--accent-color);
+}
+
+.toc-h1 { padding-left: 0; font-weight: 500; }
+.toc-h2 { padding-left: 0.5rem; }
+.toc-h3 { padding-left: 1.5rem; }
+.toc-h4 { padding-left: 2.5rem; }
+
+@media (max-width: 1024px) {
+    .note-container {
+        flex-direction: column;
+    }
+    
+    .toc-sidebar {
+        width: 100%;
+        position: static;
+        max-height: none;
+        margin-top: 1.5rem;
+        order: -1; 
+    }
+}

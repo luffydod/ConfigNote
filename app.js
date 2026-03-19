@@ -123,6 +123,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Parse Markdown to HTML
             const html = marked.parse(text);
             markdownContent.innerHTML = html;
+            
+            buildTableOfContents();
         } catch (error) {
             console.error('Error fetching markdown:', error);
             markdownContent.innerHTML = `
@@ -134,6 +136,57 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         }
     }
+
+    // --- Table of Contents ---
+    function buildTableOfContents() {
+        const tocList = document.getElementById('toc-list');
+        if (!tocList) return;
+        
+        tocList.innerHTML = '';
+        const headings = markdownContent.querySelectorAll('h1, h2, h3, h4');
+        
+        if (headings.length === 0) {
+            tocList.innerHTML = '<li style="color: var(--text-secondary); font-size: 0.875rem;">无目录结构</li>';
+            return;
+        }
+
+        let tocHTML = '';
+        headings.forEach((heading, index) => {
+            if (!heading.id) {
+                let id = heading.textContent.trim().toLowerCase().replace(/[\s\W]+/g, '-');
+                if (!id) id = `heading-${index}`;
+                let uniqueId = id;
+                let counter = 1;
+                while(document.getElementById(uniqueId)) {
+                    uniqueId = `${id}-${counter}`;
+                    counter++;
+                }
+                heading.id = uniqueId;
+            }
+            
+            const level = parseInt(heading.tagName.substring(1));
+            tocHTML += `<li class="toc-h${level}"><a href="#${heading.id}">${heading.textContent}</a></li>`;
+        });
+
+        tocList.innerHTML = tocHTML;
+    }
+
+    const tocListDom = document.getElementById('toc-list');
+    if (tocListDom) {
+        tocListDom.addEventListener('click', (e) => {
+            if (e.target.tagName === 'A') {
+                e.preventDefault();
+                const targetId = e.target.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    const yOffset = -80; 
+                    const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                    window.scrollTo({top: y, behavior: 'smooth'});
+                }
+            }
+        });
+    }
+
 
     // --- Router ---
     function handleRoute() {
