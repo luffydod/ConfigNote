@@ -1,4 +1,4 @@
-# 😽 Dockerfile配置
+# 😽 Docker
 
 ## Install Guide
 
@@ -99,6 +99,37 @@ docker run -d --name test-log nginx
 docker inspect --format='{{.HostConfig.LogConfig}}' test-log
 # 输出应包含: {json-file map[max-file:3 max-size:50m]}
 ```
+
+## 为 Docker 守护进程手动指定代理
+
+1. 创建 Docker 的 systemd 配置目录
+
+```bash
+sudo mkdir -p /etc/systemd/system/docker.service.d
+```
+
+2. 创建并编辑代理配置文件
+
+```bash
+sudo vim /etc/systemd/system/docker.service.d/http-proxy.conf
+```
+
+3. 写入配置
+
+```ini
+[Service]
+Environment="HTTP_PROXY=http://127.0.0.1:7890"
+Environment="HTTPS_PROXY=http://127.0.0.1:7890"
+Environment="NO_PROXY=localhost,127.0.0.1,.example.com"
+```
+
+4. 重载配置并重启dockerfuwu
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
+
 
 ## 🫥 image list
 
