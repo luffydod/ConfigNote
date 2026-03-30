@@ -45,15 +45,11 @@ source ~/.bashrc
 
 ```yaml
 channels:
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r/
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2/
   - defaults
 show_channel_urls: true
 default_channels:
   - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
   - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2
 custom_channels:
   conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
   pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
@@ -110,8 +106,27 @@ export SSL_CERT_FILE=/root/miniconda2/lib/python2.7/site-packages/certifi/cacert
 # 🥱 可以将此设置写入 ~/.bashrc 或 ~/.profile 使其永久生效
 ```
 
-6. 
-7. 
+## NodeJS 安装
+
+1. 安装 [nvm](https://github.com/nvm-sh/nvm)
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
+```
+
+2. 安装 NodeJS 长期支持版
+
+```bash
+nvm install --lts
+```
+
+3. 验证安装
+
+```bash
+node -v
+npm -v
+```
+
 ## 😀 Clash Verge 代理配置
 
 ### 🙉 安装 Clash Verge (.deb 文件)
