@@ -106,9 +106,9 @@ export SSL_CERT_FILE=/root/miniconda2/lib/python2.7/site-packages/certifi/cacert
 # 🥱 可以将此设置写入 ~/.bashrc 或 ~/.profile 使其永久生效
 ```
 
-## NodeJS 安装
+## 🫤 NodeJS 安装
 
-1. 安装 [nvm](https://github.com/nvm-sh/nvm)
+1. 安装 [😥 nvm](https://github.com/nvm-sh/nvm)
 
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
@@ -230,23 +230,23 @@ chmod: 无法访问 '/tmp/ShellCrash/core_new': 没有那个文件或目录
 
 ### 🙃 在线生成配置文件
 
-程序运行过程中提示/usr/share/ShellCrash/start.sh: 第 326 行： [🙀 : : 需要整数表达式
+程序运行过程中提示/usr/share/ShellCrash/start.sh: 第 326 行： [😼 🙀 : : 需要整数表达式
 
 修复建议：[start.sh](./start.sh)
 
-## 通用解压与压缩脚本
+## 🫨 通用解压与压缩脚本
 
-[compress_extract_anything.sh](./compress_extract_anything.sh)
+[😈 compress_extract_anything.sh](./compress_extract_anything.sh)
 
-### 1. 函数：extract —— 解压缩文件
+### ☹️ 1. 函数：extract —— 解压缩文件
 
-#### **用法**
+#### 😇 **用法**
 
 ```bash
 extract <压缩文件> [目标目录]
 ```
 
-#### **说明**
+#### 😎 **说明**
 
 * 自动识别压缩文件格式并进行解压。
 * 若未指定目标目录，则默认解压到当前目录。
@@ -263,31 +263,31 @@ extract <压缩文件> [目标目录]
 | RAR   | `.rar`              |
 | TAR   | `.tar`              |
 
-#### **示例**
+#### 🤭 **示例**
 
 ```bash
-# 解压到当前目录
+# 🤓 解压到当前目录
 extract archive.tar.gz
 
-# 解压到指定目录 output/
+# 😯 解压到指定目录 output/
 extract data.zip output
 ```
 
-### 2. 函数：compress —— 压缩文件/目录
+### 😄 2. 函数：compress —— 压缩文件/目录
 
-### **用法**
+### 🤥 **用法**
 
 ```bash
 compress <输出文件名> <输入文件1> [输入文件2 ...]
 ```
 
-#### **说明**
+#### 😑 **说明**
 
 * 根据输出文件名扩展名自动选择压缩格式。
 * 可同时压缩多个文件或目录。
 * 若扩展名不属于已支持格式，将 **默认使用 .tar 格式** 压缩。
 
-#### **支持格式**
+#### 🥴 **支持格式**
 
 | 格式      | 示例扩展名               |
 | ------- | ------------------- |
@@ -298,20 +298,20 @@ compress <输出文件名> <输入文件1> [输入文件2 ...]
 | 7Z      | `.7z`               |
 | TAR（默认） | `.tar`              |
 
-#### **示例**
+#### 😧 **示例**
 
 ```bash
-# 打包为 tar.gz
+# 😃 打包为 tar.gz
 compress backup.tar.gz folder/
 
-# 打包多个文件为 zip
+# 💀 打包多个文件为 zip
 compress project.zip file1 folder2 file2
 
-# 未指定扩展名时，自动使用 tar 格式
+# 🤭 未指定扩展名时，自动使用 tar 格式
 compress backup folder1 folder2
 ```
 
-### 3. 帮助信息
+### 😟 3. 帮助信息
 
 任意函数加 `-h` 或 `--help` 可查看帮助：
 

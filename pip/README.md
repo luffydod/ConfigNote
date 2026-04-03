@@ -23,13 +23,13 @@ pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 
 ```
 
-## 加载系统包配置
+## 🥳 加载系统包配置
 
-### Venv
+### 😀 Venv
 
 `/path/to/venv/pyvenv.cfg`: `include-system-site-packages = true`
 
-### Conda
+### 🙊 Conda
 
 conda 下的虚拟环境默认是不继承系统 Python 包的，想要修改：
 1. 设置环境变量（临时）

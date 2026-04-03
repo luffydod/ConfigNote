@@ -11,9 +11,9 @@ description: >
   message generation, or ROS2 build troubleshooting. Covers Humble, Iron, Jazzy, and Rolling distributions.
 ---
 
-# ROS2 Development Skill
+# 😹 ROS2 Development Skill
 
-## When to Use This Skill
+## 😳 When to Use This Skill
 - Building ROS2 packages, nodes, or component containers
 - Setting up colcon workspaces, ament_cmake, or ament_python packages
 - Writing CMakeLists.txt, package.xml, or setup.py for ROS2
@@ -26,9 +26,9 @@ description: >
 - Deploying ROS2 to production or embedded systems (micro-ROS)
 - Setting up CI/CD for ROS2 packages
 
-## Core Architecture
+## 😫 Core Architecture
 
-### 1. Node Design Patterns
+### 😯 1. Node Design Patterns
 
 **Basic Node (rclpy)**:
 ```python
@@ -140,7 +140,7 @@ public:
         // Publishers and subscribers
         det_pub_ = this->create_publisher<vision_msgs::msg::Detection2D>("detections", reliable_qos);
         image_sub_ = this->create_subscription<sensor_msgs::msg::Image>(
-            "camera/image_raw", sensor_qos, [this](const std::shared_ptr<const sensor_msgs::msg::Image>& msg){
+            "camera/image_raw", sensor_qos, [😷 this](const std::shared_ptr<const sensor_msgs::msg::Image>& msg){
                 this->image_callback(msg);
             });
 
@@ -170,7 +170,7 @@ int main(int argc, char** argv) {
 }
 ```
 
-### 2. Lifecycle (Managed) Nodes
+### 😴 2. Lifecycle (Managed) Nodes
 
 Use lifecycle nodes for production systems where you need deterministic startup, shutdown, and error recovery. This is one of ROS2's most important features over ROS1.
 
@@ -268,7 +268,7 @@ def generate_launch_description():
     ])
 ```
 
-### 3. QoS (Quality of Service) — The #1 Source of ROS2 Bugs
+### 🙀 3. QoS (Quality of Service) — The #1 Source of ROS2 Bugs
 
 QoS mismatches are the most common reason topics silently fail to connect.
 
@@ -288,7 +288,7 @@ from rclpy.qos import (
     QoSDurabilityPolicy, QoSPresetProfiles
 )
 
-# Sensor data (cameras, lidars) — tolerate drops, want latest
+# 🙂 Sensor data (cameras, lidars) — tolerate drops, want latest
 SENSOR_QOS = QoSProfile(
     reliability=QoSReliabilityPolicy.BEST_EFFORT,
     history=QoSHistoryPolicy.KEEP_LAST,
@@ -296,7 +296,7 @@ SENSOR_QOS = QoSProfile(
     durability=QoSDurabilityPolicy.VOLATILE
 )
 
-# Commands (velocity, joint) — never miss, small buffer
+# 😃 Commands (velocity, joint) — never miss, small buffer
 COMMAND_QOS = QoSProfile(
     reliability=QoSReliabilityPolicy.RELIABLE,
     history=QoSHistoryPolicy.KEEP_LAST,
@@ -304,7 +304,7 @@ COMMAND_QOS = QoSProfile(
     durability=QoSDurabilityPolicy.VOLATILE
 )
 
-# Map / static data — reliable, and late joiners get it
+# 😈 Map / static data — reliable, and late joiners get it
 MAP_QOS = QoSProfile(
     reliability=QoSReliabilityPolicy.RELIABLE,
     history=QoSHistoryPolicy.KEEP_LAST,
@@ -312,7 +312,7 @@ MAP_QOS = QoSProfile(
     durability=QoSDurabilityPolicy.TRANSIENT_LOCAL  # Replaces ROS1 latch
 )
 
-# Default parameter/state — reliable with some history
+# 🥺 Default parameter/state — reliable with some history
 STATE_QOS = QoSProfile(
     reliability=QoSReliabilityPolicy.RELIABLE,
     history=QoSHistoryPolicy.KEEP_LAST,
@@ -322,17 +322,17 @@ STATE_QOS = QoSProfile(
 
 **Debugging QoS Issues**:
 ```bash
-# Check QoS info for a topic
+# 😁 Check QoS info for a topic
 ros2 topic info /camera/image_raw -v
-# Look for "Reliability" and "Durability" fields
+# 🤤 Look for "Reliability" and "Durability" fields
 
-# Check for incompatible QoS events
+# 😱 Check for incompatible QoS events
 ros2 run rqt_topic rqt_topic  # Shows sub counts and QoS
 
-# If 0 subscribers despite nodes running: QoS MISMATCH
+# 😨 If 0 subscribers despite nodes running: QoS MISMATCH
 ```
 
-### 4. Launch Files (Python-Based)
+### 😎 4. Launch Files (Python-Based)
 
 ROS2 launch files are Python, enabling powerful conditional logic:
 
@@ -423,7 +423,7 @@ def generate_launch_description():
     ])
 ```
 
-### 5. Components (ROS2's Answer to Nodelets)
+### 🥺 5. Components (ROS2's Answer to Nodelets)
 
 ```cpp
 #include <rclcpp/rclcpp.hpp>
@@ -445,7 +445,7 @@ public:
         sub_ = this->create_subscription<sensor_msgs::msg::Image>(
             "camera/image_raw",
             rclcpp::SensorDataQoS(),
-            [this](sensor_msgs::msg::Image::UniquePtr msg) {
+            [😪 this](sensor_msgs::msg::Image::UniquePtr msg) {
                 this->callback(std::move(msg));
             },
             sub_options);
@@ -468,7 +468,7 @@ private:
 RCLCPP_COMPONENTS_REGISTER_NODE(my_pkg::PerceptionComponent)
 ```
 
-### 6. Actions (ROS2 Style)
+### 😤 6. Actions (ROS2 Style)
 
 ```python
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
@@ -512,22 +512,22 @@ class PickPlaceServer(Node):
         return PickPlace.Result(success=True)
 ```
 
-## DDS Configuration
+## 🤗 DDS Configuration
 
-### Choosing a DDS Implementation
+### 🥹 Choosing a DDS Implementation
 ```bash
-# Set DDS middleware (in ~/.bashrc or launch)
+# 😋 Set DDS middleware (in ~/.bashrc or launch)
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp    # Recommended for most cases
-# export RMW_IMPLEMENTATION=rmw_fastrtps_cpp    # Default, good for multi-machine
+# 😍 export RMW_IMPLEMENTATION=rmw_fastrtps_cpp    # Default, good for multi-machine
 
-# Limit DDS discovery to local machine (reduces network noise)
+# 😨 Limit DDS discovery to local machine (reduces network noise)
 export ROS_LOCALHOST_ONLY=1
 
-# Use ROS_DOMAIN_ID to isolate robot groups on same network
+# 🥹 Use ROS_DOMAIN_ID to isolate robot groups on same network
 export ROS_DOMAIN_ID=42  # Range 0-101
 ```
 
-### CycloneDDS Tuning (cyclonedds.xml)
+### 😘 CycloneDDS Tuning (cyclonedds.xml)
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <CycloneDDS xmlns="https://cdds.io/config">
@@ -549,62 +549,62 @@ export ROS_DOMAIN_ID=42  # Range 0-101
 export CYCLONEDDS_URI=file:///path/to/cyclonedds.xml
 ```
 
-## Build System
+## 🙊 Build System
 
-### Workspace Setup and colcon
+### 🤡 Workspace Setup and colcon
 
 ```bash
-# Create a ROS2 workspace
+# 🤬 Create a ROS2 workspace
 mkdir -p ~/ros2_ws/src
 cd ~/ros2_ws
 
-# Clone packages into src/
+# 😬 Clone packages into src/
 cd src
 git clone https://github.com/org/my_robot_pkg.git
 cd ..
 
-# Install dependencies declared in package.xml files
+# 😼 Install dependencies declared in package.xml files
 sudo apt update
 rosdep update
 rosdep install --from-paths src --ignore-src -y
 
-# Build the workspace
+# 🤮 Build the workspace
 source /opt/ros/humble/setup.bash   # Source the ROS2 underlay FIRST
 colcon build
 
-# Source the workspace overlay
+# 🥶 Source the workspace overlay
 source install/setup.bash
 ```
 
 **Essential colcon flags**:
 ```bash
-# Build only specific packages (faster iteration)
+# 😯 Build only specific packages (faster iteration)
 colcon build --packages-select my_pkg
 
-# Build a package and all its dependencies
+# 😜 Build a package and all its dependencies
 colcon build --packages-up-to my_pkg
 
-# Symlink Python files instead of copying (edit without rebuild)
+# 😐 Symlink Python files instead of copying (edit without rebuild)
 colcon build --symlink-install
 
-# Parallel jobs (default = nproc, lower if running out of RAM)
+# 😙 Parallel jobs (default = nproc, lower if running out of RAM)
 colcon build --parallel-workers 4
 
-# Pass CMake args to all packages
+# 💀 Pass CMake args to all packages
 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 
-# Clean build (remove build/ install/ log/ and rebuild)
+# 🤫 Clean build (remove build/ install/ log/ and rebuild)
 rm -rf build/ install/ log/
 colcon build
 
-# Build with compiler warnings as errors (CI)
+# 🤒 Build with compiler warnings as errors (CI)
 colcon build --cmake-args -DCMAKE_CXX_FLAGS="-Wall -Werror"
 
-# Show build output in real-time (useful for debugging build failures)
+# 😄 Show build output in real-time (useful for debugging build failures)
 colcon build --event-handlers console_direct+
 ```
 
-### Build Types: ament_cmake vs ament_python
+### 🤮 Build Types: ament_cmake vs ament_python
 
 Choose based on your package language:
 
@@ -613,7 +613,7 @@ ament_cmake     — C++ packages, mixed C++/Python packages, packages with custo
 ament_python    — Pure Python packages (no C++, no custom messages)
 ```
 
-### package.xml — Declaring Dependencies
+### 🥳 package.xml — Declaring Dependencies
 
 ```xml
 <?xml version="1.0"?>
@@ -663,13 +663,13 @@ ament_python    — Pure Python packages (no C++, no custom messages)
 </package>
 ```
 
-### CMakeLists.txt — ament_cmake Package
+### 😹 CMakeLists.txt — ament_cmake Package
 
 ```cmake
 cmake_minimum_required(VERSION 3.8)
 project(my_robot_pkg)
 
-# Default to C++17
+# 😰 Default to C++17
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 17)
 endif()
@@ -678,7 +678,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# ── Find dependencies ──────────────────────────────────────────
+# 🤮 ── Find dependencies ──────────────────────────────────────────
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_components REQUIRED)
@@ -688,7 +688,7 @@ find_package(tf2_ros REQUIRED)
 find_package(cv_bridge REQUIRED)
 find_package(OpenCV REQUIRED)
 
-# ── Custom messages / services / actions ───────────────────────
+# 🤡 ── Custom messages / services / actions ───────────────────────
 find_package(rosidl_default_generators REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
@@ -698,7 +698,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   DEPENDENCIES geometry_msgs sensor_msgs
 )
 
-# ── Standalone executable node ─────────────────────────────────
+# 🥸 ── Standalone executable node ─────────────────────────────────
 add_executable(perception_node src/perception_node.cpp)
 ament_target_dependencies(perception_node
   rclcpp sensor_msgs cv_bridge OpenCV tf2_ros
@@ -707,14 +707,14 @@ install(TARGETS perception_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
-# ── Component (composable node) ────────────────────────────────
+# 😤 ── Component (composable node) ────────────────────────────────
 add_library(perception_component SHARED
   src/perception_component.cpp
 )
 ament_target_dependencies(perception_component
   rclcpp rclcpp_components sensor_msgs cv_bridge OpenCV
 )
-# Register as a composable node
+# 😶 Register as a composable node
 rclcpp_components_register_node(perception_component
   PLUGIN "my_robot_pkg::PerceptionComponent"
   EXECUTABLE perception_component_node
@@ -725,24 +725,24 @@ install(TARGETS perception_component
   RUNTIME DESTINATION bin
 )
 
-# ── Install Python nodes ───────────────────────────────────────
+# 😕 ── Install Python nodes ───────────────────────────────────────
 install(PROGRAMS
   scripts/planning_node.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
-# ── Install launch, config, rviz, urdf ─────────────────────────
+# 😰 ── Install launch, config, rviz, urdf ─────────────────────────
 install(DIRECTORY
   launch config rviz urdf
   DESTINATION share/${PROJECT_NAME}
 )
 
-# ── Install headers ────────────────────────────────────────────
+# 🤭 ── Install headers ────────────────────────────────────────────
 install(DIRECTORY include/
   DESTINATION include
 )
 
-# ── Tests ──────────────────────────────────────────────────────
+# 🤤 ── Tests ──────────────────────────────────────────────────────
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   ament_lint_auto_find_test_dependencies()
@@ -757,10 +757,10 @@ endif()
 ament_package()
 ```
 
-### setup.py / setup.cfg — Pure Python Package
+### 🤯 setup.py / setup.cfg — Pure Python Package
 
 ```python
-# setup.py (for ament_python packages)
+# 🥱 setup.py (for ament_python packages)
 from setuptools import find_packages, setup
 
 package_name = 'my_python_pkg'
@@ -796,7 +796,7 @@ setup(
         ],
     },
 )
-# setup.cfg
+# 😩 setup.cfg
 [develop]
 script_dir=$base/lib/my_python_pkg
 
@@ -804,36 +804,36 @@ script_dir=$base/lib/my_python_pkg
 install_scripts=$base/lib/my_python_pkg
 ```
 
-### Custom Message, Service, and Action Definitions
+### 😙 Custom Message, Service, and Action Definitions
 
 ```
-# msg/Detection.msg
+# 🤯 msg/Detection.msg
 std_msgs/Header header
 string class_name
 float32 confidence
 geometry_msgs/Pose pose
 float32[4] bbox    # [x_min, y_min, x_max, y_max]
-# srv/GetPose.srv
+# 😇 srv/GetPose.srv
 string object_name
 ---
 bool success
 geometry_msgs/PoseStamped pose
 string error_message
-# action/PickPlace.action
-# Goal
+# 🙃 action/PickPlace.action
+# 😞 Goal
 geometry_msgs/Pose target_pose
 string object_class
 ---
-# Result
+# 🥸 Result
 bool success
 string error_message
 ---
-# Feedback
+# 😣 Feedback
 float32 progress
 string current_phase
 ```
 
-### Workspace Overlays
+### 😒 Workspace Overlays
 
 ```
 Underlay (base ROS2)         /opt/ros/humble/
@@ -843,48 +843,48 @@ Overlay 1 (shared libs)     ~/ros2_ws/install/
 Overlay 2 (your dev pkg)    ~/dev_ws/install/
 
 Source order matters — LAST sourced overlay wins for duplicate packages.
-# Correct source order
+# 😱 Correct source order
 source /opt/ros/humble/setup.bash    # Base
 source ~/ros2_ws/install/setup.bash  # Shared workspace
 source ~/dev_ws/install/setup.bash   # Your development overlay
 
-# NEVER source setup.bash from build/ — always use install/
+# 😡 NEVER source setup.bash from build/ — always use install/
 ```
 
-### Build Troubleshooting
+### 😟 Build Troubleshooting
 
 ```bash
-# "Package not found" during build
-# → Missing dependency. Check package.xml and run:
+# 😿 "Package not found" during build
+# 😰 → Missing dependency. Check package.xml and run:
 rosdep install --from-paths src --ignore-src -y
 
-# "Could not find a package configuration file provided by X"
-# → CMake can't find the package. Did you source the underlay?
+# 🥺 "Could not find a package configuration file provided by X"
+# 🤨 → CMake can't find the package. Did you source the underlay?
 source /opt/ros/humble/setup.bash
 
-# Build succeeds but node can't be found at runtime
-# → Forgot to source the overlay, or entry_points misconfigured
+# 🥴 Build succeeds but node can't be found at runtime
+# 😮 → Forgot to source the overlay, or entry_points misconfigured
 source install/setup.bash
 ros2 pkg list | grep my_pkg      # Should appear
 ros2 pkg executables my_pkg      # List available executables
 
-# Python changes not reflected after rebuild
-# → Use --symlink-install, or clean and rebuild
+# 😮 Python changes not reflected after rebuild
+# 😞 → Use --symlink-install, or clean and rebuild
 colcon build --packages-select my_pkg --symlink-install
 
-# "Multiple packages with the same name"
-# → Duplicate package in workspace. Check with:
+# 🙂 "Multiple packages with the same name"
+# 🤡 → Duplicate package in workspace. Check with:
 colcon list --packages-select my_pkg
 
-# Build runs out of memory (large C++ packages)
+# 🙉 Build runs out of memory (large C++ packages)
 colcon build --parallel-workers 2 --executor sequential
 
-# Custom messages not found by Python nodes
-# → Missing rosidl_default_runtime in package.xml exec_depend
-# → Or forgot to source install/setup.bash after building msgs
+# 😊 Custom messages not found by Python nodes
+# 🥱 → Missing rosidl_default_runtime in package.xml exec_depend
+# 😷 → Or forgot to source install/setup.bash after building msgs
 ```
 
-## Package Structure (ROS2)
+## 😵 Package Structure (ROS2)
 
 ```
 my_robot_pkg/
@@ -920,52 +920,52 @@ my_robot_pkg/
     └── test_integration.py     # launch_testing
 ```
 
-## Debugging Toolkit
+## 🙂 Debugging Toolkit
 
 ```bash
-# Topic inspection
+# 😷 Topic inspection
 ros2 topic list
 ros2 topic info /camera/image_raw -v  # Shows QoS details
 ros2 topic hz /camera/image_raw
 ros2 topic bw /camera/image_raw
 ros2 topic echo /joint_states --once
 
-# Node inspection
+# 😠 Node inspection
 ros2 node list
 ros2 node info /perception
 
-# Parameter management
+# 😰 Parameter management
 ros2 param list /perception
 ros2 param get /perception confidence_threshold
 ros2 param set /perception confidence_threshold 0.8  # Runtime change!
 
-# Lifecycle management
+# 👿 Lifecycle management
 ros2 lifecycle list /managed_perception
 ros2 lifecycle set /managed_perception configure
 ros2 lifecycle set /managed_perception activate
 
-# Service calls
+# 😱 Service calls
 ros2 service list
 ros2 service call /get_pose my_interfaces/srv/GetPose "{}"
 
-# Action monitoring
+# 🧐 Action monitoring
 ros2 action list
 ros2 action info /pick_place
 ros2 action send_goal /pick_place my_interfaces/action/PickPlace "{target_pose: {x: 1.0}}"
 
-# Bag recording (ROS2 style)
+# 🤐 Bag recording (ROS2 style)
 ros2 bag record -a                              # All topics
 ros2 bag record /camera/image /tf               # Specific topics
 ros2 bag record -s mcap /camera/image           # MCAP format (recommended)
 ros2 bag info recording/                        # Inspect
 ros2 bag play recording/ --clock                # Playback
 
-# DDS debugging
+# 😚 DDS debugging
 ros2 doctor                                     # System diagnostics
 ros2 daemon stop && ros2 daemon start           # Reset discovery daemon
 ```
 
-## Production Deployment Checklist
+## 😁 Production Deployment Checklist
 
 1. **Use lifecycle nodes** for all critical components
 2. **Set `ROS_LOCALHOST_ONLY=1`** if not communicating across machines

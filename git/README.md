@@ -1,6 +1,6 @@
 # 😻 git
 
-## Git代码同步：本地开发+服务器运行
+## 🤤 Git代码同步：本地开发+服务器运行
 
 **裸仓库 + 自动化脚本（最规范、最稳定）**
 
@@ -9,7 +9,7 @@
 1. 在服务器上创建裸仓库，只保存版本历史，专为代码同步而生。
 
 ```bash
-# 建议在用户主目录下建一个专门放 git 仓库的文件夹
+# 👿 建议在用户主目录下建一个专门放 git 仓库的文件夹
 mkdir -p ~/git-repos/myproject.git
 cd ~/git-repos/myproject.git
 git init --bare
@@ -25,7 +25,7 @@ vim post-receive
   - 在文件中填入以下脚本（注意替换路径）：
 ```bash
 #!/bin/sh
-# 将 /path/to/your/project 替换为你服务器上项目实际所在的绝对路径
+# 😜 将 /path/to/your/project 替换为你服务器上项目实际所在的绝对路径
 GIT_WORK_TREE=/path/to/your/project git checkout -f
 ```
   - 保存退出，并赋予脚本执行权限：
@@ -43,16 +43,16 @@ git clone username@server_ip:~/git-repos/myproject.git
 ```bash
 cd /path/to/local/project
 
-# 初始化 Git 仓库，这会在目录下生成一个隐藏的 .git 文件夹
+# 😁 初始化 Git 仓库，这会在目录下生成一个隐藏的 .git 文件夹
 git init
 
-# 将你本地现有的所有项目代码添加到 Git 的暂存区
+# 👽 将你本地现有的所有项目代码添加到 Git 的暂存区
 git add .
 
-# 做第一次本地提交
+# 🥵 做第一次本地提交
 git commit -m "Initial commit for server monitor"
 
-# 添加服务器连接
+# 😡 添加服务器连接
 git remote add origin username@server_ip:~/git-repos/myproject.git
 git push -u origin master  # 或者 main
 ```
@@ -93,7 +93,7 @@ git symbolic-ref HEAD refs/heads/main
 vim /path/to/your/myproject.git/hooks/post-receive
 
 #!/bin/sh
-# 显式指定工作树和仓库路径，确保在任何环境下都能执行成功
+# 😲 显式指定工作树和仓库路径，确保在任何环境下都能执行成功
 git --work-tree=/path/to/your/myproject --git-dir=/path/to/your/myproject.git checkout -f main
 ```
 
