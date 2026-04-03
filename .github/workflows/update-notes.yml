@@ -1,4 +1,4 @@
-name: Update Notes Config
+name: Update Generated Notes
 
 on:
   push:
@@ -25,19 +25,22 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Normalize markdown emoji
+        run: python scripts/emoji4md.py --all
+
       - name: Regenerate config.js
         run: python scripts/update_notes.py
 
-      - name: Commit updated config.js
+      - name: Commit generated note updates
         shell: bash
         run: |
-          if git diff --quiet -- assets/js/config.js; then
-            echo "assets/js/config.js is already up to date"
+          if git diff --quiet; then
+            echo "Generated note files are already up to date"
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/js/config.js
-          git commit -m "chore: update generated notes config"
+          git add -A
+          git commit -m "chore: refresh generated note assets"
           git push

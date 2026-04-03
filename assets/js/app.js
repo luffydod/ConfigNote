@@ -8,19 +8,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const moonIcon = document.getElementById('moon-icon');
     const sunIcon = document.getElementById('sun-icon');
     const githubEditLink = document.getElementById('github-edit-link');
-    const appScript = document.querySelector('script[src$="assets/js/app.js"]');
 
     const GITHUB_REPO_URL = 'https://github.com/luffydod/ConfigNote/edit/main/';
-    const APP_BASE_URL = appScript ? new URL('../../', appScript.src) : new URL('./', window.location.href);
+    const APP_BASE_URL = new URL('./', document.baseURI);
+
+    function normalizeNotePath(notePath) {
+        return decodeURIComponent(notePath || '')
+            .trim()
+            .replace(/\\/g, '/')
+            .replace(/^\.\//, '')
+            .replace(/^\/+/, '');
+    }
+
+    function buildNoteRequestUrls(notePath) {
+        const normalizedPath = normalizeNotePath(notePath);
+        const candidates = [
+            new URL(normalizedPath, APP_BASE_URL),
+            new URL(normalizedPath, document.baseURI),
+            new URL(normalizedPath, window.location.href),
+        ];
+
+        return [...new Map(candidates.map((url) => [url.href, url])).values()];
+    }
 
     function buildNoteHref(notePath) {
         const noteUrl = new URL(APP_BASE_URL);
-        noteUrl.searchParams.set('note', notePath);
+        noteUrl.searchParams.set('note', normalizeNotePath(notePath));
         return `${noteUrl.pathname}${noteUrl.search}`;
     }
 
     function buildNoteAssetUrl(notePath) {
-        return new URL(notePath, APP_BASE_URL);
+        return new URL(normalizeNotePath(notePath), APP_BASE_URL);
     }
 
     function resolveNotePath(currentNotePath, targetPath) {
@@ -29,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'https://confignote.local/'
         );
 
-        return new URL(targetPath, virtualBase).pathname.replace(/^\//, '');
+        return normalizeNotePath(new URL(targetPath, virtualBase).pathname);
     }
 
     // --- Theme Management ---
@@ -98,7 +116,31 @@ document.addEventListener('DOMContentLoaded', () => {
     marked.use({ renderer });
 
     // --- Render Note ---
+    async function fetchNoteContent(notePath) {
+        const attemptErrors = [];
+
+        for (const candidateUrl of buildNoteRequestUrls(notePath)) {
+            const requestUrl = new URL(candidateUrl);
+            requestUrl.searchParams.set('v', Date.now().toString());
+
+            try {
+                const response = await fetch(requestUrl);
+                if (!response.ok) {
+                    attemptErrors.push(`${requestUrl.pathname} -> HTTP ${response.status}`);
+                    continue;
+                }
+
+                return await response.text();
+            } catch (error) {
+                attemptErrors.push(`${requestUrl.pathname} -> ${error.message}`);
+            }
+        }
+
+        throw new Error(attemptErrors.join(' | '));
+    }
+
     async function fetchAndRenderNote(notePath) {
+        const normalizedNotePath = normalizeNotePath(notePath);
         homeView.classList.replace('section-active', 'section-hidden');
         noteView.classList.replace('section-hidden', 'section-active');
         window.scrollTo(0, 0);
@@ -109,14 +151,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p>加载笔记中...</p>
             </div>`;
 
-        githubEditLink.href = `${GITHUB_REPO_URL}${notePath}`;
+        githubEditLink.href = `${GITHUB_REPO_URL}${normalizedNotePath}`;
 
         try {
-            const noteUrl = buildNoteAssetUrl(notePath);
-            noteUrl.searchParams.set('v', Date.now().toString());
-            const resp = await fetch(noteUrl);
-            if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
-            const text = await resp.text();
+            const text = await fetchNoteContent(normalizedNotePath);
 
             // Parse Markdown to HTML
             const html = marked.parse(text);
@@ -133,8 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
             markdownContent.innerHTML = `
                 <div style="color: #ef4444; padding: 2rem; text-align: center;">
                     <h2>无法加载笔记 😢</h2>
-                    <p style="margin-top: 1rem;">找不到文件: <code>${notePath}</code></p>
-                    <p style="margin-top: 0.5rem; font-size: 0.9em; color: var(--text-secondary);">请检查路径是否正确，或重新生成 assets/js/config.js。</p>
+                    <p style="margin-top: 1rem;">找不到文件: <code>${normalizedNotePath}</code></p>
+                    <p style="margin-top: 0.5rem; font-size: 0.9em; color: var(--text-secondary);">请检查路径是否正确，或确认当前站点根目录可访问该 Markdown 文件。</p>
                 </div>
             `;
         }
