@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function initTheme() {
         const savedTheme = localStorage.getItem('theme');
         const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        
+
         if (savedTheme === 'dark' || (!savedTheme && systemDark)) {
             document.documentElement.setAttribute('data-theme', 'dark');
             moonIcon.classList.add('hidden');
@@ -30,10 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
     themeToggle.addEventListener('click', () => {
         const currentTheme = document.documentElement.getAttribute('data-theme');
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        
+
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
-        
+
         if (newTheme === 'dark') {
             moonIcon.classList.add('hidden');
             sunIcon.classList.remove('hidden');
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!notesConfig || notesConfig.length === 0) {
             notesGrid.innerHTML = `
                 <div style="grid-column: 1 / -1; text-align: center; color: var(--text-secondary); padding: 2rem;">
-                    没有发现笔记。请运行 <code>python3 update_notes.py</code> 来生成配置。
+                    没有发现笔记。请运行 <code>python3 scripts/update_notes.py</code> 来生成配置。
                 </div>`;
             return;
         }
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="spinner"></div>
                 <p>加载笔记中...</p>
             </div>`;
-        
+
         githubEditLink.href = `${GITHUB_REPO_URL}${notePath}`;
 
         try {
@@ -112,15 +112,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const resp = await fetch(notePath + '?v=' + new Date().getTime());
             if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
             const text = await resp.text();
-            
+
             // Parse Markdown to HTML
             const html = marked.parse(text);
             markdownContent.innerHTML = html;
-            
+
             markdownContent.querySelectorAll('pre code').forEach((block) => {
                 hljs.highlightElement(block);
             });
-            
+
             buildTableOfContents();
             addCopyButtons();
         } catch (error) {
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div style="color: #ef4444; padding: 2rem; text-align: center;">
                     <h2>无法加载笔记 😢</h2>
                     <p style="margin-top: 1rem;">找不到文件: <code>${notePath}</code></p>
-                    <p style="margin-top: 0.5rem; font-size: 0.9em; color: var(--text-secondary);">请检查路径是否正确，或重新生成 config.js。</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.9em; color: var(--text-secondary);">请检查路径是否正确，或重新生成 assets/js/config.js。</p>
                 </div>
             `;
         }
@@ -139,10 +139,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function buildTableOfContents() {
         const tocList = document.getElementById('toc-list');
         if (!tocList) return;
-        
+
         tocList.innerHTML = '';
         const headings = markdownContent.querySelectorAll('h1, h2, h3, h4');
-        
+
         if (headings.length === 0) {
             tocList.innerHTML = '<li style="color: var(--text-secondary); font-size: 0.875rem;">无目录结构</li>';
             return;
@@ -155,13 +155,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!id) id = `heading-${index}`;
                 let uniqueId = id;
                 let counter = 1;
-                while(document.getElementById(uniqueId)) {
+                while (document.getElementById(uniqueId)) {
                     uniqueId = `${id}-${counter}`;
                     counter++;
                 }
                 heading.id = uniqueId;
             }
-            
+
             const level = parseInt(heading.tagName.substring(1));
             tocHTML += `<li class="toc-h${level}"><a href="#${heading.id}">${heading.textContent}</a></li>`;
         });
@@ -177,14 +177,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const targetId = e.target.getAttribute('href').substring(1);
                 const targetElement = document.getElementById(targetId);
                 if (targetElement) {
-                    const yOffset = -80; 
+                    const yOffset = -80;
                     const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                    window.scrollTo({top: y, behavior: 'smooth'});
+                    window.scrollTo({ top: y, behavior: 'smooth' });
                 }
             }
         });
     }
-
 
     // --- Code Copy ---
     function addCopyButtons() {
@@ -194,16 +193,16 @@ document.addEventListener('DOMContentLoaded', () => {
             button.className = 'copy-btn';
             button.title = 'Copy code';
             button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
-            
+
             button.addEventListener('click', async () => {
                 const codeBlock = pre.querySelector('code');
                 if (!codeBlock) return;
-                
+
                 try {
                     await navigator.clipboard.writeText(codeBlock.innerText);
                     button.classList.add('copied');
                     button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-                    
+
                     setTimeout(() => {
                         button.classList.remove('copied');
                         button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
@@ -212,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.error('Failed to copy text: ', err);
                 }
             });
-            
+
             pre.appendChild(button);
         });
     }

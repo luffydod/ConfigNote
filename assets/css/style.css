@@ -470,15 +470,15 @@ a:hover {
     .container {
         padding: 1rem;
     }
-    
+
     .hero {
         padding: 2rem 0;
     }
-    
+
     .hero-title {
         font-size: 2rem;
     }
-    
+
     .glass-panel {
         padding: 1.5rem;
     }
@@ -545,12 +545,12 @@ a:hover {
     .note-container {
         flex-direction: column;
     }
-    
+
     .toc-sidebar {
         width: 100%;
         position: static;
         max-height: none;
         margin-top: 1.5rem;
-        order: -1; 
+        order: -1;
     }
 }

@@ -1,0 +1,43 @@
+name: Update Notes Config
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - assets/js/config.js
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-config:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Regenerate config.js
+        run: python scripts/update_notes.py
+
+      - name: Commit updated config.js
+        shell: bash
+        run: |
+          if git diff --quiet -- assets/js/config.js; then
+            echo "assets/js/config.js is already up to date"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/js/config.js
+          git commit -m "chore: update generated notes config"
+          git push

@@ -6,3 +6,10 @@
 
 ## 🔄 维护与更新
 本项目由个人持续维护中^_^
+
+### 自动更新 config.js
+仓库已支持 GitHub Actions 自动执行 scripts/update_notes.py。
+
+当 main 分支收到代码推送时，工作流会自动运行脚本并检查 assets/js/config.js 是否有变化；如果有变化，会由 Actions 自动提交回仓库。
+
+工作流文件见 [.github/workflows/update-notes.yml](.github/workflows/update-notes.yml)。
