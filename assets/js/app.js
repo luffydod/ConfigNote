@@ -37,6 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return `${noteUrl.pathname}${noteUrl.search}`;
     }
 
+    function buildHomeHref() {
+        return APP_BASE_URL.pathname;
+    }
+
     function buildNoteAssetUrl(notePath) {
         return new URL(normalizeNotePath(notePath), APP_BASE_URL);
     }
@@ -48,6 +52,86 @@ document.addEventListener('DOMContentLoaded', () => {
         );
 
         return normalizeNotePath(new URL(targetPath, virtualBase).pathname);
+    }
+
+    function getMarkedLinkArgs(hrefOrToken, title, text, rendererContext) {
+        if (hrefOrToken && typeof hrefOrToken === 'object') {
+            const token = hrefOrToken;
+            const renderedText = token.tokens && rendererContext?.parser
+                ? rendererContext.parser.parseInline(token.tokens)
+                : (token.text || token.href || '');
+
+            return {
+                href: token.href || '',
+                title: token.title || '',
+                text: renderedText,
+            };
+        }
+
+        return {
+            href: hrefOrToken || '',
+            title: title || '',
+            text: text || hrefOrToken || '',
+        };
+    }
+
+    function scrollToHeading(targetId) {
+        if (!targetId) {
+            return;
+        }
+
+        const targetElement = document.getElementById(targetId);
+        if (!targetElement) {
+            return;
+        }
+
+        const yOffset = -80;
+        const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+
+    function navigateToUrl(url, replace = false) {
+        const method = replace ? 'replaceState' : 'pushState';
+        window.history[method]({}, '', `${url.pathname}${url.search}${url.hash}`);
+        handleRoute();
+    }
+
+    function navigateToNote(notePath, options = {}) {
+        const noteUrl = new URL(APP_BASE_URL);
+        noteUrl.searchParams.set('note', normalizeNotePath(notePath));
+
+        if (options.hash) {
+            noteUrl.hash = options.hash;
+        }
+
+        navigateToUrl(noteUrl, options.replace);
+    }
+
+    function navigateHome(replace = false) {
+        navigateToUrl(new URL(APP_BASE_URL), replace);
+    }
+
+    function isModifiedClick(event) {
+        return event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0;
+    }
+
+    function getAppUrl(anchor) {
+        if (!anchor || !anchor.href) {
+            return null;
+        }
+
+        try {
+            const url = new URL(anchor.href, window.location.href);
+            if (url.origin !== window.location.origin) {
+                return null;
+            }
+            if (url.pathname !== APP_BASE_URL.pathname) {
+                return null;
+            }
+            return url;
+        } catch {
+            return null;
+        }
     }
 
     // --- Theme Management ---
@@ -105,13 +189,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle relative links in markdown (intercept links to other .md files)
     const renderer = new marked.Renderer();
     renderer.link = function(href, title, text) {
+        const linkArgs = getMarkedLinkArgs(href, title, text, this);
         // If it's a relative link to an .md file, convert it to our routing system
-        if (href && !href.startsWith('http') && !href.startsWith('#') && href.endsWith('.md')) {
+        if (linkArgs.href && !linkArgs.href.startsWith('http') && !linkArgs.href.startsWith('#') && linkArgs.href.endsWith('.md')) {
             const currentNote = new URLSearchParams(window.location.search).get('note');
-            const resolvedPath = resolveNotePath(currentNote, href);
-            return `<a href="${buildNoteHref(resolvedPath)}" title="${title || ''}">${text}</a>`;
+            const resolvedPath = resolveNotePath(currentNote, linkArgs.href);
+            return `<a href="${buildNoteHref(resolvedPath)}" data-note-path="${resolvedPath}" title="${linkArgs.title}">${linkArgs.text}</a>`;
         }
-        return `<a href="${href}" title="${title || ''}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+        return `<a href="${linkArgs.href}" title="${linkArgs.title}" target="_blank" rel="noopener noreferrer">${linkArgs.text}</a>`;
     };
     marked.use({ renderer });
 
@@ -153,10 +238,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         githubEditLink.href = `${GITHUB_REPO_URL}${normalizedNotePath}`;
 
+        let text;
         try {
-            const text = await fetchNoteContent(normalizedNotePath);
+            text = await fetchNoteContent(normalizedNotePath);
+        } catch (error) {
+            console.error('Error fetching markdown:', error);
+            markdownContent.innerHTML = `
+                <div style="color: #ef4444; padding: 2rem; text-align: center;">
+                    <h2>无法加载笔记 😢</h2>
+                    <p style="margin-top: 1rem;">找不到文件: <code>${normalizedNotePath}</code></p>
+                    <p style="margin-top: 0.5rem; font-size: 0.9em; color: var(--text-secondary);">请检查路径是否正确，或确认当前站点根目录可访问该 Markdown 文件。</p>
+                </div>
+            `;
+            return;
+        }
 
-            // Parse Markdown to HTML
+        try {
             const html = marked.parse(text);
             markdownContent.innerHTML = html;
 
@@ -166,13 +263,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             buildTableOfContents();
             addCopyButtons();
+
+            if (window.location.hash) {
+                scrollToHeading(window.location.hash.substring(1));
+            }
         } catch (error) {
-            console.error('Error fetching markdown:', error);
+            console.error('Error rendering markdown:', error);
             markdownContent.innerHTML = `
                 <div style="color: #ef4444; padding: 2rem; text-align: center;">
-                    <h2>无法加载笔记 😢</h2>
-                    <p style="margin-top: 1rem;">找不到文件: <code>${normalizedNotePath}</code></p>
-                    <p style="margin-top: 0.5rem; font-size: 0.9em; color: var(--text-secondary);">请检查路径是否正确，或确认当前站点根目录可访问该 Markdown 文件。</p>
+                    <h2>笔记渲染失败 😵</h2>
+                    <p style="margin-top: 1rem;">文件已加载，但 Markdown 渲染过程中发生错误。</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.9em; color: var(--text-secondary);">请检查控制台错误信息，或修复当前文档中的链接与语法。</p>
                 </div>
             `;
         }
@@ -218,15 +319,47 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.target.tagName === 'A') {
                 e.preventDefault();
                 const targetId = e.target.getAttribute('href').substring(1);
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    const yOffset = -80;
-                    const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                    window.scrollTo({ top: y, behavior: 'smooth' });
-                }
+                window.history.replaceState({}, '', `${window.location.pathname}${window.location.search}#${targetId}`);
+                scrollToHeading(targetId);
             }
         });
     }
+
+    document.addEventListener('click', (event) => {
+        const anchor = event.target.closest('a');
+        if (!anchor || isModifiedClick(event) || anchor.target === '_blank' || anchor.hasAttribute('download')) {
+            return;
+        }
+
+        if (anchor.getAttribute('href')?.startsWith('#')) {
+            event.preventDefault();
+            const targetId = anchor.getAttribute('href').substring(1);
+            window.history.replaceState({}, '', `${window.location.pathname}${window.location.search}#${targetId}`);
+            scrollToHeading(targetId);
+            return;
+        }
+
+        const explicitNotePath = anchor.dataset.notePath;
+        if (explicitNotePath) {
+            event.preventDefault();
+            navigateToNote(explicitNotePath);
+            return;
+        }
+
+        const appUrl = getAppUrl(anchor);
+        if (!appUrl) {
+            return;
+        }
+
+        event.preventDefault();
+        const notePath = appUrl.searchParams.get('note');
+        if (notePath) {
+            navigateToNote(notePath, { hash: appUrl.hash });
+            return;
+        }
+
+        navigateHome();
+    });
 
     // --- Code Copy ---
     function addCopyButtons() {
@@ -269,6 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             noteView.classList.replace('section-active', 'section-hidden');
             homeView.classList.replace('section-hidden', 'section-active');
+            window.scrollTo(0, 0);
             renderGrid();
         }
     }
