@@ -230,7 +230,7 @@ chmod: 无法访问 '/tmp/ShellCrash/core_new': 没有那个文件或目录
 
 ### 🙃 在线生成配置文件
 
-程序运行过程中提示/usr/share/ShellCrash/start.sh: 第 326 行： [😼 🙀 : : 需要整数表达式
+程序运行过程中提示/usr/share/ShellCrash/start.sh: 第 326 行： [😼 😼 🙀 : : 需要整数表达式
 
 修复建议：[start.sh](./start.sh)
 
