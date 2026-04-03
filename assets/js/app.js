@@ -8,8 +8,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const moonIcon = document.getElementById('moon-icon');
     const sunIcon = document.getElementById('sun-icon');
     const githubEditLink = document.getElementById('github-edit-link');
+    const appScript = document.querySelector('script[src$="assets/js/app.js"]');
 
     const GITHUB_REPO_URL = 'https://github.com/luffydod/ConfigNote/edit/main/';
+    const APP_BASE_URL = appScript ? new URL('../../', appScript.src) : new URL('./', window.location.href);
+
+    function buildNoteHref(notePath) {
+        const noteUrl = new URL(APP_BASE_URL);
+        noteUrl.searchParams.set('note', notePath);
+        return `${noteUrl.pathname}${noteUrl.search}`;
+    }
+
+    function buildNoteAssetUrl(notePath) {
+        return new URL(notePath, APP_BASE_URL);
+    }
+
+    function resolveNotePath(currentNotePath, targetPath) {
+        const virtualBase = new URL(
+            currentNotePath ? currentNotePath.replace(/[^/]+$/, '') : '',
+            'https://confignote.local/'
+        );
+
+        return new URL(targetPath, virtualBase).pathname.replace(/^\//, '');
+    }
 
     // --- Theme Management ---
     function initTheme() {
@@ -54,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         notesGrid.innerHTML = notesConfig.map(note => `
-            <a href="?note=${encodeURIComponent(note.path)}" class="note-card" data-path="${note.path}">
+            <a href="${buildNoteHref(note.path)}" class="note-card" data-path="${note.path}">
                 <div class="note-title">${note.title}</div>
                 <div class="note-path">${note.path}</div>
             </a>
@@ -68,26 +89,9 @@ document.addEventListener('DOMContentLoaded', () => {
     renderer.link = function(href, title, text) {
         // If it's a relative link to an .md file, convert it to our routing system
         if (href && !href.startsWith('http') && !href.startsWith('#') && href.endsWith('.md')) {
-            // Need to resolve the relative path based on current note path
             const currentNote = new URLSearchParams(window.location.search).get('note');
-            let resolvedPath = href;
-            if (currentNote) {
-                const parts = currentNote.split('/');
-                parts.pop(); // remove current filename
-                // simple resolution for ./ and ../
-                const hrefParts = href.split('/');
-                for (const part of hrefParts) {
-                    if (part === '.') {
-                        continue;
-                    } else if (part === '..') {
-                        parts.pop();
-                    } else {
-                        parts.push(part);
-                    }
-                }
-                resolvedPath = parts.join('/');
-            }
-            return `<a href="?note=${encodeURIComponent(resolvedPath)}" title="${title || ''}">${text}</a>`;
+            const resolvedPath = resolveNotePath(currentNote, href);
+            return `<a href="${buildNoteHref(resolvedPath)}" title="${title || ''}">${text}</a>`;
         }
         return `<a href="${href}" title="${title || ''}" target="_blank" rel="noopener noreferrer">${text}</a>`;
     };
@@ -108,8 +112,9 @@ document.addEventListener('DOMContentLoaded', () => {
         githubEditLink.href = `${GITHUB_REPO_URL}${notePath}`;
 
         try {
-            // Append a unique query param to bypass cache during development
-            const resp = await fetch(notePath + '?v=' + new Date().getTime());
+            const noteUrl = buildNoteAssetUrl(notePath);
+            noteUrl.searchParams.set('v', Date.now().toString());
+            const resp = await fetch(noteUrl);
             if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
             const text = await resp.text();
 
