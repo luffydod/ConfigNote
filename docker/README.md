@@ -51,7 +51,10 @@ cat <<EOF | sudo tee /etc/docker/daemon.json
   },
   "storage-driver": "overlay2",
   "exec-opts": ["native.cgroupdriver=systemd"],
-  "live-restore": true
+  "live-restore": true,
+  "registry-mirrors": [
+    "https://docker.1ms.run"
+  ]
 }
 EOF
 
@@ -81,6 +84,41 @@ sudo systemctl start docker
 # 👻 5. 验证路径
 docker info | grep "Docker Root Dir"
 # 😏 输出应为: Docker Root Dir: /data/docker
+```
+
+## 🤠 NVIDIA Container Toolkit 安装与配置
+
+### 1. 安装 Toolkit
+
+```bash
+# 添加官方 GPG 密钥
+curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
+
+# 添加软件源（若需要代理）：
+curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
+  sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+  sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+
+# 若无代理，使用中科大镜像源：
+echo "deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://mirrors.ustc.edu.cn/libnvidia-container/stable/deb/\$(ARCH) /" | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+
+# 修复 CUDA 仓库公钥缺失（如有需要）：
+curl -fsSL https://developer.download.nvidia.cn/compute/cuda/repos/ubuntu2204/x86_64/3bf863cc.pub | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/nvidia-cuda.gpg
+
+# 安装
+sudo apt update
+sudo apt install -y nvidia-container-toolkit
+```
+
+### 2. 配置 Runtime 并启动
+
+```bash
+# 自动配置 NVIDIA Runtime (会自动修改 daemon.json 结合刚才的配置)
+sudo nvidia-ctk runtime configure --runtime=docker
+
+# 重新加载系统服务并重启 Docker
+sudo systemctl daemon-reload
+sudo systemctl restart docker
 ```
 
 4. 验证与测试
@@ -134,7 +172,8 @@ sudo systemctl restart docker
 ## 🫥 image list
 
 - [😊 novnc](novnc/README.md)
-- 
+- [🥳 PyTorch Dev 环境](pytorch_dev/README.md)
+
 
 ## 😝 Docker镜像加速域名
 

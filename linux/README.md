@@ -19,6 +19,48 @@ arch
 - `aarch64`: `arm64` 在 Linux 内核中的标准名称。
 - `x86_64`: 64 位的 Intel/AMD 架构（目前最常见的桌面和服务器 CPU 架构）。
 
+## 🤠 系统换源与代号查询
+
+在终端运行以下命令，查看你的系统代号（Codename）：
+
+```bash
+lsb_release -c
+```
+
+备份系统源：
+
+```bash
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+```
+
+## 🤨 CUDA Toolkit 安装
+
+安装前确认 NVIDIA 驱动情况（这里针对仅有驱动无 nvcc 的情形）。
+
+以安装 CUDA 13.0 为例（Ubuntu 22.04）：
+
+[下载地址](https://developer.nvidia.com/cuda-13-0-0-download-archive?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=22.04&target_type=deb_network)
+
+```bash
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb
+sudo dpkg -i cuda-keyring_1.1-1_all.deb
+sudo apt-get update
+sudo apt-get -y install cuda-toolkit-13-0
+```
+
+配置环境变量（可添加到 `~/.bashrc`）：
+
+```bash
+export PATH=/usr/local/cuda/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+```
+
+验证安装：
+
+```bash
+nvcc -V
+```
+
 ## 🥳 MiniConda 安装配置
 
 1. 使用 [🙃 清华源镜像](https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/) 下载安装脚本
