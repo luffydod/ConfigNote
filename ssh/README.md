@@ -1,6 +1,6 @@
-# 👻 SSH
+# 🤓 SSH
 
-## 😷 Github SSH 连接配置
+## 😽 Github SSH 连接配置
 
 1. 在主机上生成 SSH 密钥对
 
@@ -26,7 +26,7 @@ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 ssh -T git@github.com
 ```
 
-### ☠️ 密钥文件权限
+### 😾 密钥文件权限
 
 确保你的 ~/.ssh 目录和密钥文件的权限是正确的，这是 SSH 客户端的一个安全要求。
 
@@ -36,7 +36,7 @@ chmod 600 ~/.ssh/id_ed25519   # 确保私钥权限是 600
 chmod 644 ~/.ssh/id_ed25519.pub # 公钥权限可以是 644
 ```
 
-### 😺 使用多个密钥
+### 😍 使用多个密钥
 
 如果你为不同的服务（如 GitHub, GitLab）配置了不同的密钥，或者使用了非默认名称的密钥，你需要编辑 ~/.ssh/config 文件来指定针对哪个主机使用哪个密钥。例如：
 
@@ -47,7 +47,7 @@ Host github.com
   IdentityFile ~/.ssh/your_special_key_for_github
 ```
 
-## 🤨 SSH 免密登录服务器
+## 🥲 SSH 免密登录服务器
 
 1. 生成本地密钥对
 
@@ -87,7 +87,7 @@ chmod 600 ~/.ssh/authorized_keys
 ssh username@server_ip -p port_number
 ```
 
-## 💀 VSCode远程连接配置
+## 🤠 VSCode远程连接配置
 
 ```bash
 # ~/.ssh/config 文件内容示例
@@ -98,7 +98,7 @@ Host myserver  # 自定义别名
     IdentityFile ~/.ssh/id_rsa  # 私钥路径
 ```
 
-## 🥱 SSH 端口隧道
+## 😨 SSH 端口隧道
 
 ```bash
 # 格式：ssh -L 本地端口:127.0.0.1:远程端口 用户名@服务器IP
