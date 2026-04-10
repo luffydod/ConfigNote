@@ -86,9 +86,26 @@ docker info | grep "Docker Root Dir"
 # 输出应为: Docker Root Dir: /data/docker
 ```
 
+4. 验证与测试
+
+```bash
+# 验证版本
+docker version
+
+# 运行 Hello World
+docker run --rm hello-world
+
+# 验证日志策略是否生效（查看某个容器的配置）
+# 启动一个测试容器
+docker run -d --name test-log nginx
+# 查看该容器的 HostConfig.LogConfig
+docker inspect --format='{{.HostConfig.LogConfig}}' test-log
+# 输出应包含: {json-file map[max-file:3 max-size:50m]}
+```
+
 ## 😀 NVIDIA Container Toolkit 安装与配置
 
-### 💩 1. 安装 Toolkit
+### 💩 安装 Toolkit
 
 ```bash
 # 添加官方 GPG 密钥
@@ -110,7 +127,7 @@ sudo apt update
 sudo apt install -y nvidia-container-toolkit
 ```
 
-### 😩 2. 配置 Runtime 并启动
+### 😩 配置 Runtime 并启动
 
 ```bash
 # 自动配置 NVIDIA Runtime (会自动修改 daemon.json 结合刚才的配置)
@@ -119,23 +136,6 @@ sudo nvidia-ctk runtime configure --runtime=docker
 # 重新加载系统服务并重启 Docker
 sudo systemctl daemon-reload
 sudo systemctl restart docker
-```
-
-4. 验证与测试
-
-```bash
-# 验证版本
-docker version
-
-# 运行 Hello World
-docker run --rm hello-world
-
-# 验证日志策略是否生效（查看某个容器的配置）
-# 启动一个测试容器
-docker run -d --name test-log nginx
-# 查看该容器的 HostConfig.LogConfig
-docker inspect --format='{{.HostConfig.LogConfig}}' test-log
-# 输出应包含: {json-file map[max-file:3 max-size:50m]}
 ```
 
 ## 😾 为 Docker 守护进程手动指定代理
@@ -161,31 +161,28 @@ Environment="HTTPS_PROXY=http://127.0.0.1:7890"
 Environment="NO_PROXY=localhost,127.0.0.1,.example.com"
 ```
 
-4. 重载配置并重启dockerfuwu
+4. 重载配置并重启 Docker 服务
 
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 ```
 
+## 😕 子项目说明 (Subdirectories)
 
-## 😕 image list
-
-- [😊 novnc](novnc/README.md)
-- [🥳 PyTorch Dev 环境](pytorch_dev/README.md)
-
+- [🥴 novnc](novnc/README.md)
+- [😿 PyTorch Dev 容器环境](pytorch_dev/README.md): 这是一个使用官方 PyTorch 镜像构建的开发环境，内含 SSH、Tmux 等基础工具。
 
 ## 💀 Docker镜像加速域名
 
 - docker.xuanyuan.me
-- 
+-
 
 ```bash
 docker pull [加速域名]/image_tag
 ```
 
-
-## 😸 1、基础系统镜像源配置
+## 😸 基础系统镜像源配置
 
 ```dockerfile
 # 设置语言环境和时区
@@ -254,6 +251,3 @@ Host sam6d
     Port 23456
     ProxyJump XA5019
 ```
-
-
-
