@@ -1,18 +1,18 @@
-# 🤠 Linux
+# 😌 Linux
 
-## 😨 确认系统架构
+## 🙃 确认系统架构
 
 ```bash
-# ☠️ 1.
+# 1.
 uname -m
 
-# 😇 示例输出
+# 示例输出
 aarch64
 
-# 😷 2.
+# 2.
 lscpu
 
-# 😶 3.
+# 3.
 arch
 ```
 
@@ -33,13 +33,13 @@ lsb_release -c
 sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
 ```
 
-## 🤨 CUDA Toolkit 安装
+## 🤯 CUDA Toolkit 安装
 
 安装前确认 NVIDIA 驱动情况（这里针对仅有驱动无 nvcc 的情形）。
 
 以安装 CUDA 13.0 为例（Ubuntu 22.04）：
 
-[下载地址](https://developer.nvidia.com/cuda-13-0-0-download-archive?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=22.04&target_type=deb_network)
+[🤢 下载地址](https://developer.nvidia.com/cuda-13-0-0-download-archive?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=22.04&target_type=deb_network)
 
 ```bash
 wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb
@@ -61,7 +61,7 @@ export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 nvcc -V
 ```
 
-## 🥳 MiniConda 安装配置
+## 😷 MiniConda 安装配置
 
 1. 使用 [🙃 清华源镜像](https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/) 下载安装脚本
 
@@ -133,22 +133,22 @@ root@b6ad3098a877:/home/root# conda install -c conda-forge mamba
 Fetching package metadata: SSL verification error: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:590)
 .SSL verification error: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:590)
 
-# 🫨 解决：更新系统包环境
+# 解决：更新系统包环境
 apt-get update && apt-get install --reinstall ca-certificates
 update-ca-certificates
 
-# 🥳 配置环境变量
-# 😯 首先查找 certifi 包提供的证书文件路径，通常类似于：
-# 😅 /root/miniconda2/lib/python2.7/site-packages/certifi/cacert.pem
-# 😄 您可以使用 find 命令查找：
+# 配置环境变量
+# 首先查找 certifi 包提供的证书文件路径，通常类似于：
+# /root/miniconda2/lib/python2.7/site-packages/certifi/cacert.pem
+# 您可以使用 find 命令查找：
 find /root/miniconda2 -name "cacert.pem" -type f
 
-# 😇 找到路径后，设置环境变量（请将路径替换为实际找到的路径）
+# 找到路径后，设置环境变量（请将路径替换为实际找到的路径）
 export SSL_CERT_FILE=/root/miniconda2/lib/python2.7/site-packages/certifi/cacert.pem
-# 🥱 可以将此设置写入 ~/.bashrc 或 ~/.profile 使其永久生效
+# 可以将此设置写入 ~/.bashrc 或 ~/.profile 使其永久生效
 ```
 
-## 🫤 NodeJS 安装
+## 👾 NodeJS 安装
 
 1. 安装 [😥 nvm](https://github.com/nvm-sh/nvm)
 
@@ -169,20 +169,20 @@ node -v
 npm -v
 ```
 
-## 😀 Clash Verge 代理配置
+## 🫠 Clash Verge 代理配置
 
-### 🙉 安装 Clash Verge (.deb 文件)
+### 🤓 安装 Clash Verge (.deb 文件)
 
 ```bash
 sudo apt install ./clash-verge_xxx_arm64.deb
 ```
 
-### 😈 配置终端环境变量（proxy_on/proxy_off）
+### 🫣 配置终端环境变量（proxy_on/proxy_off）
 
 ```bash
-# 😏 ==================================
-# 😙 Proxy configuration for Clash
-# 😀 ==================================
+# ==================================
+# Proxy configuration for Clash
+# ==================================
 
 function proxy_on() {
     export http_proxy="http://127.0.0.1:7890"
@@ -201,38 +201,38 @@ function proxy_off() {
 }
 ```
 
-### 😩 彻底卸载 Clash Verge
+### 😛 彻底卸载 Clash Verge
 
 ```bash
-# 😅 停止并禁用服务
+# 停止并禁用服务
 sudo systemctl stop clash-core-service.service
 sudo systemctl disable clash-core-service.service
 
-# 🤐 删除服务文件
+# 删除服务文件
 sudo rm -f  /usr/lib/systemd/system/clash-core-service.service
 
-# 😾 重新加载 systemd
+# 重新加载 systemd
 sudo systemctl daemon-reload
 
-# 🤣 删除软件
+# 删除软件
 sudo apt remove clash-verge
 sudo apt autoremove
 
-# 🧐 删除配置文件和缓存
+# 删除配置文件和缓存
 rm -rf ~/.config/clash
 rm -rf ~/.cache/clash-verge/
 rm -rf ~/.local/share/clash-verge/
 ```
 
-## 😡 ShellCrash 代理安装配置
+## 👺 ShellCrash 代理安装配置
 
 [😃 site](https://github.com/juewuy/ShellCrash)
 
-### 😻 安装脚本说明
+### 🤣 安装脚本说明
 
 安装时下载失败，替换了 `webget` 函数，直接手动下载了 `ShellCrash.tar.gz` 并放到了指定路径，可以参考安装脚本：[😥 install_shellcrash.sh](./install_shellcrash.sh)
 
-### 🙊 启动服务
+### 🤤 启动服务
 
 手动下载 meta 核心：[🤮 CrashCore](https://github.com/juewuy/ShellCrash/tree/dev/bin/meta)，并手动移动到需要的执行目录：`/tmp/ShellCrash/CrashCore.tar.gz`。
 
@@ -264,31 +264,31 @@ chmod: 无法访问 '/tmp/ShellCrash/core_new': 没有那个文件或目录
 核心下载失败，请重新运行或更换安装源！
 ```
 
-### 😤 面板本地安装
+### 😇 面板本地安装
 
 手动 [😼 download](https://github.com/juewuy/ShellCrash/tree/dev/bin/dashboard)，然后解压到安装目录下的 `ui` 目录。
 
 比如：安装目录选择 `usr/share` 对应的 ui 目录：`/usr/share/ShellCrash/ui`
 
-### 🙃 在线生成配置文件
+### 😨 在线生成配置文件
 
 程序运行过程中提示/usr/share/ShellCrash/start.sh: 第 326 行： [😼 😼 🙀 : : 需要整数表达式
 
-修复建议：[start.sh](./start.sh)
+修复建议：[😭 start.sh](./start.sh)
 
-## 🫨 通用解压与压缩脚本
+## 😏 通用解压与压缩脚本
 
 [😈 compress_extract_anything.sh](./compress_extract_anything.sh)
 
-### ☹️ 1. 函数：extract —— 解压缩文件
+### 🙈 1. 函数：extract —— 解压缩文件
 
-#### 😇 **用法**
+#### 😬 **用法**
 
 ```bash
 extract <压缩文件> [目标目录]
 ```
 
-#### 😎 **说明**
+#### 🤠 **说明**
 
 * 自动识别压缩文件格式并进行解压。
 * 若未指定目标目录，则默认解压到当前目录。
@@ -305,31 +305,31 @@ extract <压缩文件> [目标目录]
 | RAR   | `.rar`              |
 | TAR   | `.tar`              |
 
-#### 🤭 **示例**
+#### 😗 **示例**
 
 ```bash
-# 🤓 解压到当前目录
+# 解压到当前目录
 extract archive.tar.gz
 
-# 😯 解压到指定目录 output/
+# 解压到指定目录 output/
 extract data.zip output
 ```
 
-### 😄 2. 函数：compress —— 压缩文件/目录
+### 😽 2. 函数：compress —— 压缩文件/目录
 
-### 🤥 **用法**
+### 😠 **用法**
 
 ```bash
 compress <输出文件名> <输入文件1> [输入文件2 ...]
 ```
 
-#### 😑 **说明**
+#### 🙂 **说明**
 
 * 根据输出文件名扩展名自动选择压缩格式。
 * 可同时压缩多个文件或目录。
 * 若扩展名不属于已支持格式，将 **默认使用 .tar 格式** 压缩。
 
-#### 🥴 **支持格式**
+#### 🫤 **支持格式**
 
 | 格式      | 示例扩展名               |
 | ------- | ------------------- |
@@ -340,20 +340,20 @@ compress <输出文件名> <输入文件1> [输入文件2 ...]
 | 7Z      | `.7z`               |
 | TAR（默认） | `.tar`              |
 
-#### 😧 **示例**
+#### 🤒 **示例**
 
 ```bash
-# 😃 打包为 tar.gz
+# 打包为 tar.gz
 compress backup.tar.gz folder/
 
-# 💀 打包多个文件为 zip
+# 打包多个文件为 zip
 compress project.zip file1 folder2 file2
 
-# 🤭 未指定扩展名时，自动使用 tar 格式
+# 未指定扩展名时，自动使用 tar 格式
 compress backup folder1 folder2
 ```
 
-### 😟 3. 帮助信息
+### 😸 3. 帮助信息
 
 任意函数加 `-h` 或 `--help` 可查看帮助：
 
@@ -362,4 +362,4 @@ extract -h
 compress --help
 ```
 
-## 😞 to be continue
+## 😕 to be continue

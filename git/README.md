@@ -1,6 +1,6 @@
-# 😻 git
+# 🤗 git
 
-## 🤤 Git代码同步：本地开发+服务器运行
+## 👾 Git代码同步：本地开发+服务器运行
 
 **裸仓库 + 自动化脚本（最规范、最稳定）**
 
@@ -9,7 +9,7 @@
 1. 在服务器上创建裸仓库，只保存版本历史，专为代码同步而生。
 
 ```bash
-# 👿 建议在用户主目录下建一个专门放 git 仓库的文件夹
+# 建议在用户主目录下建一个专门放 git 仓库的文件夹
 mkdir -p ~/git-repos/myproject.git
 cd ~/git-repos/myproject.git
 git init --bare
@@ -25,7 +25,7 @@ vim post-receive
   - 在文件中填入以下脚本（注意替换路径）：
 ```bash
 #!/bin/sh
-# 😜 将 /path/to/your/project 替换为你服务器上项目实际所在的绝对路径
+# 将 /path/to/your/project 替换为你服务器上项目实际所在的绝对路径
 GIT_WORK_TREE=/path/to/your/project git checkout -f
 ```
   - 保存退出，并赋予脚本执行权限：
@@ -43,16 +43,16 @@ git clone username@server_ip:~/git-repos/myproject.git
 ```bash
 cd /path/to/local/project
 
-# 😁 初始化 Git 仓库，这会在目录下生成一个隐藏的 .git 文件夹
+# 初始化 Git 仓库，这会在目录下生成一个隐藏的 .git 文件夹
 git init
 
-# 👽 将你本地现有的所有项目代码添加到 Git 的暂存区
+# 将你本地现有的所有项目代码添加到 Git 的暂存区
 git add .
 
-# 🥵 做第一次本地提交
+# 做第一次本地提交
 git commit -m "Initial commit for server monitor"
 
-# 😡 添加服务器连接
+# 添加服务器连接
 git remote add origin username@server_ip:~/git-repos/myproject.git
 git push -u origin master  # 或者 main
 ```
@@ -93,48 +93,48 @@ git symbolic-ref HEAD refs/heads/main
 vim /path/to/your/myproject.git/hooks/post-receive
 
 #!/bin/sh
-# 😲 显式指定工作树和仓库路径，确保在任何环境下都能执行成功
+# 显式指定工作树和仓库路径，确保在任何环境下都能执行成功
 git --work-tree=/path/to/your/myproject --git-dir=/path/to/your/myproject.git checkout -f main
 ```
 
-## 😁 git 代理配置
+## 🙉 git 代理配置
 
 ```bash
-# 💀 查看当前代理配置
+# 查看当前代理配置
 git config --global --get http.proxy
 git config --global --get https.proxy
 
 git config --global http.proxy http://127.0.0.1:7897
 git config --global https.proxy http://127.0.0.1:7897
 
-# 🤕 取消代理配置
+# 取消代理配置
 git config --global --unset http.proxy
 git config --global --unset https.proxy
 ```
 
-### 🙈 1、加速域名前缀
+### 😢 1、加速域名前缀
 
 ```bash
 
-# 😔 加速1
+# 加速1
 git clone https://github.moeyy.xyz/https://github.com/*
 
-# 😛 加速2
+# 加速2
 git clone https://gh.xmly.dev/https://github.com/*
 
-# 😍 加速3
+# 加速3
 git clone https://gh.api.99988866.xyz/https://github.com/*
 ```
 
-### 😁 2、持久配置
+### 😴 2、持久配置
 
 ```bash
-# 🙊 替换 github.com 为镜像地址
+# 替换 github.com 为镜像地址
 git config --global url."https://gitclone.com/".insteadOf https://
 git clone https://github.com/user/repo.git
 ```
 
-## 🙂 git 配置 ssh 密钥
+## 😍 git 配置 ssh 密钥
 
 1. 生成新的 ssh 密钥
 
@@ -143,12 +143,12 @@ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 
 ssh-keygen -t ed25519 -C "your_email@example.com"
 
-# 😧 根据以下提示输入自定义目录
+# 根据以下提示输入自定义目录
 Enter file in which to save the key (/home/youruser/.ssh/id_rsa):
 
 ls -al ~/.ssh
 
-# 🫥 示例输出
+# 示例输出
 my_custom_ssh_key
 my_custom_ssh_key.pub
 ```
@@ -165,7 +165,7 @@ cat ~/.ssh/my_custom_ssh_key.pub
 ```bash
 vim ~/.ssh/config
 
-# 🤧 添加以下内容
+# 添加以下内容
 Host github.com
   HostName github.com
   User git
@@ -175,14 +175,14 @@ Host github.com
 - `Host github.com`：这是一个别名，表示当你使用 git@github.com 时，自动匹配此配置。
 - `IdentityFile ~/.ssh/my_custom_ssh_key`：这是私钥的路径
 
-## 😟 clash verge规则配置
+## 🤓 clash verge规则配置
 
 问题：开启 `TUN` 模型下 git ssh 连接 22 或者 443 端口会拦截，导致 ssh 地址不通。
 
 匹配 github.com 且 目标端口为 22 (SSH) 的流量，让其直连
 - AND,((DOMAIN-SUFFIX,github.com),(DST-PORT,22)),DIRECT
 
-## 😔 git 批替换指定用户的提交信息
+## 😴 git 批替换指定用户的提交信息
 
 ```sh
 pip install git-filter-repo

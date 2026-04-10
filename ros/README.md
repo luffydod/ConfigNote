@@ -1,6 +1,6 @@
-# 🥲 ROS2
+# 😞 ROS2
 
-## 🥶 install
+## 🫣 install
 
 1. 使用鱼香ros脚本安装
 
@@ -15,7 +15,7 @@ wget http://fishros.com/install -O fishros && . fishros
 ```bash
 sudo apt install ros-${ROS_DISTRO}-ros-gz
 
-# 👾 Fortress uses "ign gazebo" instead of "gz sim"
+# Fortress uses "ign gazebo" instead of "gz sim"
 gz sim
 
 ```
@@ -23,10 +23,10 @@ gz sim
 3. install moveit2
 
 ```bash
-# 🙈 暴力install所有
+# 暴力install所有
 sudo apt install ros-${ROS_DISTRO}-moveit-*
 
-# 😔 install moveit-py if using Moviet Python API
+# install moveit-py if using Moviet Python API
 sudo apt install ros-${ROS_DISTRO}-moveit-py
 ```
 
@@ -35,28 +35,28 @@ sudo apt install ros-${ROS_DISTRO}-moveit-py
 ```bash
 sudo apt install ros-${ROS_DISTRO}-ros2-control
 
-# 😃 for gz sim
+# for gz sim
 sudo apt install ros-${ROS_DISTRO}-gz-ros2-control
 ```
 
-## 😦 zsh
+## 😶 zsh
 
 如果使用了 zsh 终端，原有的环境变量配置 `~/.bashrc` 要记得对应迁移到 `~/.zshrc`。
 此外，常见的更新项目环境变量要替换：
 
 ```bash
-# 🥳 in bashrc
+# in bashrc
 source /opt/ros/jazzy/setup.bash
-# 🤔 in project
+# in project
 source install/setup.bash
 
-# 🤥 in zshrc
+# in zshrc
 source /opt/ros/jazzy/setup.zsh
-# 😰 in project use zsh
+# in project use zsh
 source install/setup.zsh
 ```
 
-## 🙀 Domain ID
+## 👽 Domain ID
 
 in `~/.bashrc`: 
 

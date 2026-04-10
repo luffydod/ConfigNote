@@ -1,8 +1,8 @@
-# 😦 NeoVim
+# 💩 NeoVim
 
 [🤮 帮助 - Neovim 文档 - Neovim 编辑器](https://neovim.fullstack.org.cn/doc/user/)
 
-## 😋 install on windows
+## 😴 install on windows
 
 [🥴 neovim/INSTALL.md at master · neovim/neovim](https://github.com/neovim/neovim/blob/master/INSTALL.md)
 
@@ -14,13 +14,13 @@
 git clone https://github.com/neovim/nvim-lspconfig C:/Users/ACEone/.config/nvim/pack/nvim/start/nvim-lspconfig
 ```
 
-## ☠️ install on linux
+## 😑 install on linux
 
 ```bash
 sudo apt-get install neovim
 ```
 
-## 😫 base-config
+## 😟 base-config
 
 创建配置文件夹
 
@@ -28,26 +28,26 @@ sudo apt-get install neovim
 mkdir -p ~/.config/nvim
 ```
 
-## ☹️ lazyvim
+## 🤑 lazyvim
 
 [🥵 🛠️ Installation | LazyVim](https://www.lazyvim.org/installation)
 
 ```bash
-# 😨 required
+# required
 mv ~/.config/nvim{,.bak}
 
-# 😾 optional but recommended
+# optional but recommended
 mv ~/.local/share/nvim{,.bak}
 mv ~/.local/state/nvim{,.bak}
 mv ~/.cache/nvim{,.bak}
 
-# 😮 Clone the starter
+# Clone the starter
 git clone https://github.com/LazyVim/starter ~/.config/nvim
 
-# 😖 Remove the .git folder, so you can add it to your own repo later
+# Remove the .git folder, so you can add it to your own repo later
 rm -rf ~/.config/nvim/.git
 
-# 😐 start neovim!
+# start neovim!
 nvim
 ```
 
