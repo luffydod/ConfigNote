@@ -54,13 +54,6 @@ def has_emoji_prefix(text):
 def add_emojis_to_text(content, replace_existing=False, picker=None):
     emoji_picker = picker or EmojiPicker()
 
-    def replace_heading(match):
-        hashes, title = match.groups()
-        has_emoji, clean_title = has_emoji_prefix(title)
-        if has_emoji and not replace_existing:
-            return f'{hashes} {title.strip()}'
-        return f'{hashes} {emoji_picker.pick()} {clean_title}'
-
     def replace_link(match):
         full_match, label, url = match.groups()
         has_emoji, clean_label = has_emoji_prefix(label)
@@ -68,14 +61,50 @@ def add_emojis_to_text(content, replace_existing=False, picker=None):
             return full_match
         return f'[{emoji_picker.pick()} {clean_label}]({url})'
 
-    updated = HEADING_RE.sub(replace_heading, content)
-    return LINK_RE.sub(replace_link, updated)
+    lines = content.split('\n')
+    in_code_block = False
+    new_lines = []
+
+    heading_re_single = re.compile(r'^(#{1,6})\s+(.+)$')
+
+    for line in lines:
+        stripped = line.strip()
+        if stripped.startswith('```') or stripped.startswith('~~~'):
+            in_code_block = not in_code_block
+            new_lines.append(line)
+            continue
+
+        if not in_code_block:
+            heading_match = heading_re_single.match(line)
+            if heading_match:
+                hashes, title = heading_match.groups()
+                has_emoji, clean_title = has_emoji_prefix(title)
+                if has_emoji and not replace_existing:
+                    new_lines.append(f'{hashes} {title.strip()}')
+                else:
+                    new_lines.append(f'{hashes} {emoji_picker.pick()} {clean_title}')
+                continue
+            else:
+                line = LINK_RE.sub(replace_link, line)
+                
+        new_lines.append(line)
+
+    return '\n'.join(new_lines)
 
 
 def process_markdown_file(file_path, replace_existing=False, picker=None):
     source_path = Path(file_path)
     content = source_path.read_text(encoding='utf-8')
-    updated_content = add_emojis_to_text(content, replace_existing=replace_existing, picker=picker)
+    
+    def clean_heading(match):
+        hashes, title = match.groups()
+        has_emoji, clean_title = has_emoji_prefix(title)
+        if has_emoji:
+            return f'{hashes} {clean_title}'
+        return match.group(0)
+        
+    cleaned_content = HEADING_RE.sub(clean_heading, content)
+    updated_content = add_emojis_to_text(cleaned_content, replace_existing=replace_existing, picker=picker)
 
     if updated_content == content:
         print(f'= No changes: {source_path.as_posix()}')
