@@ -69,5 +69,11 @@ WORKDIR /home/${YOUR_NAME}/workspace
 # 暴露 22 端口
 EXPOSE 22
 
+# 将用户的 .local/bin 加入环境变量，解决 pip 用户安装报 PATH 警告的问题
+ENV PATH="/home/${YOUR_NAME}/.local/bin:${PATH}"
+
+# 允许 pip 全局安装，突破 PEP 668 限制
+ENV PIP_BREAK_SYSTEM_PACKAGES=1
+
 # 启动 sshd 服务，并以前台模式 (-D) 运行，这能保持容器一直处于运行状态
 CMD ["/usr/sbin/sshd", "-D"]

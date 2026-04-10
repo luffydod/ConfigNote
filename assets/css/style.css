@@ -554,3 +554,60 @@ a:hover {
         order: -1;
     }
 }
+
+/* Back to Top Button */
+.back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    box-shadow: var(--shadow-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+.back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.back-to-top:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-5px);
+}
+
+/* TOC Active State */
+#toc-list a.active {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+#toc-list li {
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+
+#toc-list a.active::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 1.2em;
+    width: 3px;
+    background-color: var(--accent-color);
+    border-radius: 2px;
+}

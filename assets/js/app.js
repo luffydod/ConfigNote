@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const moonIcon = document.getElementById('moon-icon');
     const sunIcon = document.getElementById('sun-icon');
     const githubEditLink = document.getElementById('github-edit-link');
+    const backToTopBtn = document.getElementById('back-to-top');
 
     const GITHUB_REPO_URL = 'https://github.com/luffydod/ConfigNote/edit/main/';
     const APP_BASE_URL = new URL('./', document.baseURI);
@@ -264,6 +265,11 @@ document.addEventListener('DOMContentLoaded', () => {
             buildTableOfContents();
             addCopyButtons();
 
+            const h1 = markdownContent.querySelector('h1');
+            const fileTitle = typeof notesConfig !== 'undefined' ? notesConfig.find(n => n.path === normalizedNotePath)?.title : undefined;
+            const noteTitle = h1 ? h1.textContent : (fileTitle || '笔记');
+            document.title = `${noteTitle} - ConfigNote`;
+
             if (window.location.hash) {
                 scrollToHeading(window.location.hash.substring(1));
             }
@@ -311,6 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         tocList.innerHTML = tocHTML;
+        setupScrollspy();
     }
 
     const tocListDom = document.getElementById('toc-list');
@@ -392,6 +399,61 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Scrollspy & Back to Top ---
+    let currentScrollListener = null;
+
+    function setupScrollspy() {
+        const headings = Array.from(markdownContent.querySelectorAll('h1, h2, h3, h4'));
+        const tocLinks = document.querySelectorAll('#toc-list a');
+        
+        if (headings.length === 0) return;
+
+        if (currentScrollListener) {
+            window.removeEventListener('scroll', currentScrollListener);
+        }
+
+        currentScrollListener = () => {
+            let activeId = '';
+            const scrollPos = window.scrollY + 120; 
+
+            for (const h of headings) {
+                if (h.offsetTop <= scrollPos) {
+                    activeId = h.id;
+                } else {
+                    break;
+                }
+            }
+
+            if (!activeId && headings.length > 0) {
+                activeId = headings[0].id;
+            }
+
+            tocLinks.forEach(a => {
+                a.classList.remove('active');
+                if (activeId && a.getAttribute('href') === `#${activeId}`) {
+                    a.classList.add('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', currentScrollListener);
+        currentScrollListener();
+    }
+
+    if (backToTopBtn) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
     // --- Router ---
     function handleRoute() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -400,6 +462,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (notePath) {
             fetchAndRenderNote(notePath);
         } else {
+            document.title = "ConfigNote - 📝 我的开发工具配置备忘录";
             noteView.classList.replace('section-active', 'section-hidden');
             homeView.classList.replace('section-hidden', 'section-active');
             window.scrollTo(0, 0);
