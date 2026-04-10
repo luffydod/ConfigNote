@@ -1,4 +1,4 @@
-# 🥴 novnc
+# 😀 novnc
 
 [😞 reference](https://github.com/Tiryoh/docker-ros2-desktop-vnc/blob/master/jazzy/Dockerfile).
 

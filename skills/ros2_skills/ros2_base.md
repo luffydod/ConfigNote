@@ -11,9 +11,9 @@ description: >
   message generation, or ROS2 build troubleshooting. Covers Humble, Iron, Jazzy, and Rolling distributions.
 ---
 
-# 😎 ROS2 Development Skill
+# 🤬 ROS2 Development Skill
 
-## 🥲 When to Use This Skill
+## 😦 When to Use This Skill
 - Building ROS2 packages, nodes, or component containers
 - Setting up colcon workspaces, ament_cmake, or ament_python packages
 - Writing CMakeLists.txt, package.xml, or setup.py for ROS2
@@ -26,9 +26,9 @@ description: >
 - Deploying ROS2 to production or embedded systems (micro-ROS)
 - Setting up CI/CD for ROS2 packages
 
-## 👹 Core Architecture
+## 😈 Core Architecture
 
-### 🤑 1. Node Design Patterns
+### 😹 1. Node Design Patterns
 
 **Basic Node (rclpy)**:
 ```python
@@ -170,7 +170,7 @@ int main(int argc, char** argv) {
 }
 ```
 
-### 😐 2. Lifecycle (Managed) Nodes
+### 😼 2. Lifecycle (Managed) Nodes
 
 Use lifecycle nodes for production systems where you need deterministic startup, shutdown, and error recovery. This is one of ROS2's most important features over ROS1.
 
@@ -268,7 +268,7 @@ def generate_launch_description():
     ])
 ```
 
-### ☠️ 3. QoS (Quality of Service) — The #1 Source of ROS2 Bugs
+### 🙊 3. QoS (Quality of Service) — The #1 Source of ROS2 Bugs
 
 QoS mismatches are the most common reason topics silently fail to connect.
 
@@ -332,7 +332,7 @@ ros2 run rqt_topic rqt_topic  # Shows sub counts and QoS
 # If 0 subscribers despite nodes running: QoS MISMATCH
 ```
 
-### 😕 4. Launch Files (Python-Based)
+### 😌 4. Launch Files (Python-Based)
 
 ROS2 launch files are Python, enabling powerful conditional logic:
 
@@ -423,7 +423,7 @@ def generate_launch_description():
     ])
 ```
 
-### 😊 5. Components (ROS2's Answer to Nodelets)
+### 🤬 5. Components (ROS2's Answer to Nodelets)
 
 ```cpp
 #include <rclcpp/rclcpp.hpp>
@@ -468,7 +468,7 @@ private:
 RCLCPP_COMPONENTS_REGISTER_NODE(my_pkg::PerceptionComponent)
 ```
 
-### 🙃 6. Actions (ROS2 Style)
+### 😇 6. Actions (ROS2 Style)
 
 ```python
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
@@ -512,9 +512,9 @@ class PickPlaceServer(Node):
         return PickPlace.Result(success=True)
 ```
 
-## 🤮 DDS Configuration
+## 😬 DDS Configuration
 
-### 😻 Choosing a DDS Implementation
+### 🥰 Choosing a DDS Implementation
 ```bash
 # Set DDS middleware (in ~/.bashrc or launch)
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp    # Recommended for most cases
@@ -527,7 +527,7 @@ export ROS_LOCALHOST_ONLY=1
 export ROS_DOMAIN_ID=42  # Range 0-101
 ```
 
-### 😑 CycloneDDS Tuning (cyclonedds.xml)
+### 🤠 CycloneDDS Tuning (cyclonedds.xml)
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <CycloneDDS xmlns="https://cdds.io/config">
@@ -549,9 +549,9 @@ export ROS_DOMAIN_ID=42  # Range 0-101
 export CYCLONEDDS_URI=file:///path/to/cyclonedds.xml
 ```
 
-## 😍 Build System
+## 😅 Build System
 
-### 😬 Workspace Setup and colcon
+### 🤠 Workspace Setup and colcon
 
 ```bash
 # Create a ROS2 workspace
@@ -604,7 +604,7 @@ colcon build --cmake-args -DCMAKE_CXX_FLAGS="-Wall -Werror"
 colcon build --event-handlers console_direct+
 ```
 
-### ☹️ Build Types: ament_cmake vs ament_python
+### 😉 Build Types: ament_cmake vs ament_python
 
 Choose based on your package language:
 
@@ -613,7 +613,7 @@ ament_cmake     — C++ packages, mixed C++/Python packages, packages with custo
 ament_python    — Pure Python packages (no C++, no custom messages)
 ```
 
-### 😥 package.xml — Declaring Dependencies
+### 🤢 package.xml — Declaring Dependencies
 
 ```xml
 <?xml version="1.0"?>
@@ -663,7 +663,7 @@ ament_python    — Pure Python packages (no C++, no custom messages)
 </package>
 ```
 
-### 😩 CMakeLists.txt — ament_cmake Package
+### 🤖 CMakeLists.txt — ament_cmake Package
 
 ```cmake
 cmake_minimum_required(VERSION 3.8)
@@ -757,7 +757,7 @@ endif()
 ament_package()
 ```
 
-### 🥸 setup.py / setup.cfg — Pure Python Package
+### ☠️ setup.py / setup.cfg — Pure Python Package
 
 ```python
 # setup.py (for ament_python packages)
@@ -804,7 +804,7 @@ script_dir=$base/lib/my_python_pkg
 install_scripts=$base/lib/my_python_pkg
 ```
 
-### 👿 Custom Message, Service, and Action Definitions
+### 😺 Custom Message, Service, and Action Definitions
 
 ```
 # msg/Detection.msg
@@ -833,7 +833,7 @@ float32 progress
 string current_phase
 ```
 
-### 🥳 Workspace Overlays
+### 😕 Workspace Overlays
 
 ```
 Underlay (base ROS2)         /opt/ros/humble/
@@ -851,7 +851,7 @@ source ~/dev_ws/install/setup.bash   # Your development overlay
 # NEVER source setup.bash from build/ — always use install/
 ```
 
-### 😹 Build Troubleshooting
+### 😲 Build Troubleshooting
 
 ```bash
 # "Package not found" during build
@@ -884,7 +884,7 @@ colcon build --parallel-workers 2 --executor sequential
 # → Or forgot to source install/setup.bash after building msgs
 ```
 
-## 🙊 Package Structure (ROS2)
+## 😀 Package Structure (ROS2)
 
 ```
 my_robot_pkg/
@@ -920,7 +920,7 @@ my_robot_pkg/
     └── test_integration.py     # launch_testing
 ```
 
-## 🤭 Debugging Toolkit
+## 🫠 Debugging Toolkit
 
 ```bash
 # Topic inspection
@@ -965,7 +965,7 @@ ros2 doctor                                     # System diagnostics
 ros2 daemon stop && ros2 daemon start           # Reset discovery daemon
 ```
 
-## 😣 Production Deployment Checklist
+## 😱 Production Deployment Checklist
 
 1. **Use lifecycle nodes** for all critical components
 2. **Set `ROS_LOCALHOST_ONLY=1`** if not communicating across machines
