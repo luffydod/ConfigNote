@@ -1,0 +1,37 @@
+services:
+  # 服务名称
+  allgoo_dev:
+    # 告诉 Compose 根据当前目录(.)的 Dockerfile 来构建镜像
+    build:
+      context: .
+      args:
+        - HOST_UID=${UID:-1000}
+        - HOST_GID=${GID:-1000} 
+    # 构建出来的镜像会被自动命名为这个名字
+    image: allgoo_dev:latest
+    container_name: allgoo1
+    # 让容器和宿主机共享共享内存空间（主要是 /dev/shm）、信号量和消息队列。
+    ipc: host
+
+    # 容器将完全使用宿主机的网络协议栈
+    # network_mode: host
+    ports:
+      - "22222:22"  # ssh 服务端口
+      - "8111:8000"  # 预留服务端口
+      - "8112:8001"  # 预留服务端口
+      - "8113:8002"  # 预留服务端口
+    volumes:
+      # 将宿主机的代码目录挂载到容器内的 /workspace
+      - ~/Codespace:/home/allgoo/workspace  
+      # 建议也将本地系统的时间挂载进去，保持时间同步
+      - /etc/localtime:/etc/localtime:ro
+      # 挂载本机公钥，便于免密登陆
+      - ~/.ssh/id_ed25519.pub:/home/allgoo/.ssh/authorized_keys:ro
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]  # 核心配置：透传 GPU 给容器
+    # shm_size: '16gb'  # 增加共享内存，防止 PyTorch DataLoader 报错 (根据你的物理内存可适当调大)
