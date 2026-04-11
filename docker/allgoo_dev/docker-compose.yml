@@ -25,8 +25,8 @@ services:
       - ~/Codespace:/home/allgoo/workspace  
       # 建议也将本地系统的时间挂载进去，保持时间同步
       - /etc/localtime:/etc/localtime:ro
-      # 挂载本机公钥，便于免密登陆
-      - ~/.ssh/id_ed25519.pub:/home/allgoo/.ssh/authorized_keys:ro
+      # 只挂载专门给这个容器准备的公钥目录，绝不暴露私钥！
+      - ~/allgoo_ssh_keys:/home/allgoo/.ssh:ro
     deploy:
       resources:
         reservations:

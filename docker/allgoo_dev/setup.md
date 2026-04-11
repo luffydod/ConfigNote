@@ -50,3 +50,35 @@ hint: See PEP 668 for the detailed specification.
 ```bash
 export PIP_BREAK_SYSTEM_PACKAGES=1
 ```
+
+## 免密登录挂载姿势
+
+ssh 目录权限检查
+
+```bash
+chown -R allgoo:allgoo /home/allgoo/.ssh
+chmod 700 /home/allgoo/.ssh
+chmod 600 /home/allgoo/.ssh/authorized_keys
+```
+
+为你这个容器单独建一个公钥存放目录。
+
+在宿主机上执行：
+
+```bash
+mkdir -p ~/allgoo_ssh_keys
+cp ~/.ssh/authorized_keys ~/allgoo_ssh_keys/
+# 确保权限正确
+chmod 700 ~/allgoo_ssh_keys
+chmod 600 ~/allgoo_ssh_keys/authorized_keys
+```
+
+修改你的 docker-compose.yml：
+
+```yaml
+volumes:
+  # 只挂载专门给这个容器准备的公钥目录，绝不暴露私钥！
+  - ~/allgoo_ssh_keys:/home/allgoo/.ssh:ro
+```
+
+这样既避免了单文件的 Inode 问题，又保护了你的私钥安全。
