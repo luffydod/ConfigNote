@@ -15,31 +15,39 @@ cd ~/git-repos/myproject.git
 git init --bare
 ```
 
-2. 配置自动部署钩子 (Git Hook)，让这个裸仓库在收到代码时，自动把文件覆盖到你实际跑项目的目录。
+1. 配置自动部署钩子 (Git Hook)，让这个裸仓库在收到代码时，自动把文件覆盖到你实际跑项目的目录。
 
-  - 进入钩子目录并创建 post-receive 文件：
+- 进入钩子目录并创建 post-receive 文件：
+
 ```bash
 cd ~/git-repos/myproject.git/hooks
 vim post-receive
 ```
-  - 在文件中填入以下脚本（注意替换路径）：
+
+- 在文件中填入以下脚本（注意替换路径）：
+
 ```bash
 #!/bin/sh
 # 将 /path/to/your/project 替换为你服务器上项目实际所在的绝对路径
 GIT_WORK_TREE=/path/to/your/project git checkout -f
 ```
-  - 保存退出，并赋予脚本执行权限：
+
+- 保存退出，并赋予脚本执行权限：
+
 ```bash
 chmod +x post-receive
 ```
 
-3. 在本机和服务器之间建立连接
+1. 在本机和服务器之间建立连接
 
-  - 如果你本机还没有代码，直接克隆这个裸仓库：
+- 如果你本机还没有代码，直接克隆这个裸仓库：
+
 ```bash
 git clone username@server_ip:~/git-repos/myproject.git
 ```
-  - 如果你本机已经有了开发好的代码，将其关联到服务器的裸仓库：
+
+- 如果你本机已经有了开发好的代码，将其关联到服务器的裸仓库：
+
 ```bash
 cd /path/to/local/project
 
@@ -153,14 +161,15 @@ my_custom_ssh_key
 my_custom_ssh_key.pub
 ```
 
-2. 查看 ssh 公钥，添加到 git 平台
+1. 查看 ssh 公钥，添加到 git 平台
 
 ```bash
 cat ~/.ssh/my_custom_ssh_key.pub
 ```
+
 然后，前往 GitHub，进入 Settings > SSH and GPG keys > New SSH Key，粘贴公钥，保存即可。
 
-3. 配置自定义密钥文件
+1. 配置自定义密钥文件
 
 ```bash
 vim ~/.ssh/config
@@ -172,7 +181,8 @@ Host github.com
   IdentityFile ~/.ssh/my_custom_ssh_key
 
 ```
-- `Host github.com`：这是一个别名，表示当你使用 git@github.com 时，自动匹配此配置。
+
+- `Host github.com`：这是一个别名，表示当你使用 <git@github.com> 时，自动匹配此配置。
 - `IdentityFile ~/.ssh/my_custom_ssh_key`：这是私钥的路径
 
 ## 😋 clash verge规则配置
@@ -180,7 +190,27 @@ Host github.com
 问题：开启 `TUN` 模型下 git ssh 连接 22 或者 443 端口会拦截，导致 ssh 地址不通。
 
 匹配 github.com 且 目标端口为 22 (SSH) 的流量，让其直连
+
 - AND,((DOMAIN-SUFFIX,github.com),(DST-PORT,22)),DIRECT
+
+## 强制 SSH 绕过代理
+
+SSH 使用 443 端口连接 GitHub（这个端口通常比 22 端口更容易穿透代理/防火墙）。
+
+编辑 `~/.ssh/config`，添加以下内容：
+
+```bash
+Host github.com
+    Hostname ssh.github.com
+    Port 443
+    User git
+```
+
+测试连通性：
+
+```bash
+ssh -T git@github.com
+```
 
 ## 🥺 git 批替换指定用户的提交信息
 
@@ -200,6 +230,7 @@ git filter-repo --force --commit-callback '
 ```
 
 强制推送：
+
 ```sh
 git push origin --force --all
 git push origin --force --tags
