@@ -1,6 +1,6 @@
-# 🥰 Docker
+# 😞 Docker
 
-## 😯 Install Guide
+## 👻 Install Guide
 
 1. 基础安装流程
 
@@ -103,9 +103,9 @@ docker inspect --format='{{.HostConfig.LogConfig}}' test-log
 # 输出应包含: {json-file map[max-file:3 max-size:50m]}
 ```
 
-## 🥱 NVIDIA Container Toolkit 安装与配置
+## 😟 NVIDIA Container Toolkit 安装与配置
 
-### ☹️ 安装 Toolkit
+### 💩 安装 Toolkit
 
 ```bash
 # 添加官方 GPG 密钥
@@ -127,7 +127,7 @@ sudo apt update
 sudo apt install -y nvidia-container-toolkit
 ```
 
-### 😑 配置 Runtime 并启动
+### 🙊 配置 Runtime 并启动
 
 ```bash
 # 自动配置 NVIDIA Runtime (会自动修改 daemon.json 结合刚才的配置)
@@ -138,7 +138,7 @@ sudo systemctl daemon-reload
 sudo systemctl restart docker
 ```
 
-## 😽 为 Docker 守护进程手动指定代理
+## 😆 为 Docker 守护进程手动指定代理
 
 1. 创建 Docker 的 systemd 配置目录
 
@@ -168,12 +168,12 @@ sudo systemctl daemon-reload
 sudo systemctl restart docker
 ```
 
-## 💩 子项目说明 (Subdirectories)
+## 😫 子项目说明 (Subdirectories)
 
 - [🥴 novnc](novnc/README.md)
 - [😿 PyTorch Dev 容器环境](pytorch_dev/README.md): 这是一个使用官方 PyTorch 镜像构建的开发环境，内含 SSH、Tmux 等基础工具。
 
-## 🤫 Docker镜像加速域名
+## 🤗 Docker镜像加速域名
 
 - docker.xuanyuan.me
 -
@@ -182,7 +182,7 @@ sudo systemctl restart docker
 docker pull [加速域名]/image_tag
 ```
 
-## 😇 基础系统镜像源配置
+## 🤐 基础系统镜像源配置
 
 ```dockerfile
 # 设置语言环境和时区
@@ -205,7 +205,7 @@ RUN sed 's/\/.*com/\/\/mirrors.aliyun.com/g' /etc/apt/sources.list -i
 
 换源后 update 失败可能的现象 `No system certificates available. Try installing ca-certificates.` 需要换源前安装 `ca-certificates`。
 
-## 🤗 容器 ssh 连接
+## 😖 容器 ssh 连接
 
 配置 ssh 服务
 

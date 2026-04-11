@@ -14,9 +14,9 @@ description: >
   WebRTC approaches.
 ---
 
-# 🙉 ROS2 Web Integration Skill
+# 🤩 ROS2 Web Integration Skill
 
-## 🤔 When to Use This Skill
+## 😌 When to Use This Skill
 - Building a web dashboard to monitor or control a robot running ROS2
 - Streaming camera feeds (MJPEG, WebRTC, compressed WebSocket) from a robot to a browser
 - Exposing ROS2 services and actions as REST API endpoints
@@ -28,9 +28,9 @@ description: >
 - Publishing teleop commands from a browser joystick to cmd_vel
 - Serving ROS2 parameter configuration pages or diagnostic dashboards over HTTP
 
-## 😼 Architecture Overview
+## 🙃 Architecture Overview
 
-### 😗 Comparison Table
+### 😼 Comparison Table
 
 | Feature | rosbridge_suite | Custom FastAPI Bridge | Custom Flask Bridge |
 |---|---|---|---|
@@ -42,7 +42,7 @@ description: >
 | Production Ready | No (exposes full topic graph) | Yes | Yes (with gunicorn) |
 | When to Use | Prototyping, foxglove, quick demos | Production APIs, high-perf streaming | Simple internal tools, legacy systems |
 
-### 😱 When to Use rosbridge vs Custom Bridge
+### 😮 When to Use rosbridge vs Custom Bridge
 
 Use **rosbridge_suite** when:
 - You need a working bridge in under 10 minutes
@@ -58,9 +58,9 @@ Use a **custom bridge** (FastAPI/Flask) when:
 - You are streaming video and need control over encoding and quality
 - The system is deployed in production or on a public network
 
-## 😙 Pattern 1: rosbridge_suite
+## 😅 Pattern 1: rosbridge_suite
 
-### 😤 Installation and Launch
+### 😋 Installation and Launch
 
 ```bash
 # Install rosbridge_suite
@@ -81,7 +81,7 @@ ros2 launch rosbridge_server rosbridge_websocket_launch.xml \
     authenticate:=true
 ```
 
-### 😥 JavaScript Client (roslibjs)
+### 🤧 JavaScript Client (roslibjs)
 
 ```javascript
 // Connect to rosbridge WebSocket
@@ -150,16 +150,16 @@ function onJoystickRelease() {
 }
 ```
 
-### 😗 Limitations and Performance
+### 😂 Limitations and Performance
 - **JSON serialization overhead**: All messages are serialized to JSON, including binary data (base64-encoded). A 640x480 JPEG compressed image becomes ~30% larger over the wire.
 - **No topic filtering**: By default rosbridge exposes every topic, service, and action on the ROS2 graph. Any connected client can publish to `/cmd_vel`.
 - **Single-threaded event loop**: rosbridge_server uses a single Tornado event loop. High-frequency subscriptions from multiple clients can starve the loop.
 - **No built-in rate limiting**: Clients can subscribe at any rate. A misbehaving client subscribing to a 30Hz point cloud will consume the server.
 - **Authentication is minimal**: rosauth uses MAC-based tokens with shared secrets. It does not support JWT, OAuth2, or role-based access.
 
-## 😴 Pattern 2: Custom FastAPI Bridge
+## 😡 Pattern 2: Custom FastAPI Bridge
 
-### 😋 Project Structure
+### ☺️ Project Structure
 
 ```
 robot_web_bridge/
@@ -179,7 +179,7 @@ robot_web_bridge/
 └── setup.cfg
 ```
 
-### 🧐 ROS2 Node with Async Executor
+### 🤣 ROS2 Node with Async Executor
 
 ```python
 # ros_node.py
@@ -263,7 +263,7 @@ class RobotBridgeNode(Node):
         self.cmd_vel_pub.publish(msg)
 ```
 
-### 🤖 FastAPI App with ROS2 Integration
+### 😅 FastAPI App with ROS2 Integration
 
 ```python
 # web_app.py
@@ -302,7 +302,7 @@ def create_app(ros_node: RobotBridgeNode) -> FastAPI:
     return app
 ```
 
-### ☠️ WebSocket Endpoint for Streaming
+### 😾 WebSocket Endpoint for Streaming
 
 ```python
 # Add to web_app.py — WebSocket camera streaming endpoint
@@ -361,7 +361,7 @@ async def camera_stream(websocket: WebSocket):
             pass  # Already closed
 ```
 
-### 😒 REST Endpoints Wrapping ROS2 Services
+### 😾 REST Endpoints Wrapping ROS2 Services
 
 ```python
 # Add to web_app.py — REST endpoints
@@ -430,7 +430,7 @@ async def emergency_stop():
     return {"success": result.success, "message": result.message}
 ```
 
-### 😾 Running FastAPI + rclpy Together
+### 🥴 Running FastAPI + rclpy Together
 
 This is the critical integration point. Uvicorn runs in the main thread, rclpy spins in a background thread, and shutdown is coordinated via signals.
 
@@ -495,9 +495,9 @@ if __name__ == '__main__':
     main()
 ```
 
-## 💀 Pattern 3: Flask Bridge
+## 🤨 Pattern 3: Flask Bridge
 
-### 🙀 Flask with rclpy Threading
+### 😪 Flask with rclpy Threading
 
 Flask is synchronous. Running rclpy.spin() on the same thread as Flask will block one or the other. The correct approach uses a background thread for the ROS2 executor.
 
@@ -562,7 +562,7 @@ def main():
         rclpy.shutdown()
 ```
 
-### 😅 When Flask Is Enough vs When You Need FastAPI
+### 😆 When Flask Is Enough vs When You Need FastAPI
 
 Use **Flask** when:
 - You only need simple REST endpoints (no WebSocket)
@@ -577,9 +577,9 @@ Use **FastAPI** when:
 - You want auto-generated OpenAPI docs for the robot API
 - You are streaming video or sensor data to multiple clients
 
-## 👿 Video Streaming Patterns
+## 😱 Video Streaming Patterns
 
-### 😼 MJPEG Streaming
+### 😔 MJPEG Streaming
 
 MJPEG streams work in `<img>` tags natively with no JavaScript needed. Useful for simple dashboards.
 
@@ -633,7 +633,7 @@ Browser usage — no JavaScript required:
 <img src="http://robot-host:8080/video/mjpeg" alt="Robot Camera" />
 ```
 
-### 😫 WebRTC via webrtc_ros
+### 😙 WebRTC via webrtc_ros
 
 For low-latency, high-quality video streaming, use the `webrtc_ros` package.
 
@@ -662,7 +662,7 @@ def generate_launch_description():
     ])
 ```
 
-### 😙 Compressed Topic Streaming via WebSocket
+### 😷 Compressed Topic Streaming via WebSocket
 
 For a balance between simplicity and performance, stream compressed image topics over a binary WebSocket.
 
@@ -707,9 +707,9 @@ ws.onmessage = (event) => {
 };
 ```
 
-## 🤮 Bidirectional Communication
+## 👹 Bidirectional Communication
 
-### 🫥 Web UI to Robot Commands
+### 👿 Web UI to Robot Commands
 
 ```python
 # teleop_handler.py — WebSocket teleop with command timeout watchdog
@@ -771,7 +771,7 @@ class TeleopHandler:
                 self.ros_node.publish_cmd_vel(0.0, 0.0)
 ```
 
-### 😮 Robot Status to Web UI
+### 😂 Robot Status to Web UI
 
 ```python
 # Status broadcast — push robot state to all connected WebSocket clients
@@ -807,7 +807,7 @@ class StatusBroadcaster:
             await asyncio.sleep(interval)
 ```
 
-### 😥 Command Acknowledgment Pattern
+### 😕 Command Acknowledgment Pattern
 
 For reliable command execution, use a request-response pattern over WebSocket with correlation IDs.
 
@@ -846,9 +846,9 @@ async def command_channel(websocket: WebSocket):
             break
 ```
 
-## 😴 Rate Limiting and Backpressure
+## 😥 Rate Limiting and Backpressure
 
-### 🙀 Server-Side Rate Limiting
+### 🫥 Server-Side Rate Limiting
 
 ```python
 # rate_limiter.py — Token bucket rate limiter
@@ -897,7 +897,7 @@ class TokenBucketRateLimiter:
             self._last_refill = time.monotonic()
 ```
 
-### 😒 Client-Driven Backpressure
+### 🫠 Client-Driven Backpressure
 
 Let clients request their own rate to match their processing capability.
 
@@ -924,7 +924,7 @@ async def sensor_stream(websocket: WebSocket, topic_name: str):
         pass
 ```
 
-### 🥳 Adaptive Quality Reduction
+### 🙁 Adaptive Quality Reduction
 
 Reduce image quality when bandwidth or client processing cannot keep up.
 
@@ -971,9 +971,9 @@ async def adaptive_camera_stream(websocket: WebSocket, ros_node: RobotBridgeNode
         await asyncio.sleep(1.0 / 15)
 ```
 
-## 🥳 Security
+## 😁 Security
 
-### 🥶 TLS/HTTPS with Nginx Reverse Proxy
+### 😾 TLS/HTTPS with Nginx Reverse Proxy
 
 Never expose the robot web bridge directly to untrusted networks. Use nginx as a TLS-terminating reverse proxy.
 
@@ -1014,7 +1014,7 @@ server {
 }
 ```
 
-### 😣 Token-Based Auth (JWT)
+### 🥶 Token-Based Auth (JWT)
 
 ```python
 # auth.py — JWT authentication for FastAPI robot bridge
@@ -1076,7 +1076,7 @@ async def verify_ws_token(websocket: WebSocket) -> Optional[dict]:
         return None
 ```
 
-### 🤫 CORS Configuration
+### 😌 CORS Configuration
 
 ```python
 # BAD: Allow all origins — any website can control your robot
@@ -1100,7 +1100,7 @@ app.add_middleware(
 )
 ```
 
-### 🤩 Network Segmentation
+### 😚 Network Segmentation
 
 Robots should run on isolated networks. The web bridge is the only component with interfaces on both the robot network and the user-facing network.
 
@@ -1117,7 +1117,7 @@ Robots should run on isolated networks. The web bridge is the only component wit
 - ROS2 DDS discovery is confined to the robot VLAN via `ROS_DOMAIN_ID` and DDS network interface configuration.
 - The web bridge translates and filters — never forwards raw DDS traffic.
 
-## 😗 ROS2 Parameter Management via REST
+## 🙁 ROS2 Parameter Management via REST
 
 ```python
 # parameter_api.py — Full CRUD for ROS2 parameters via HTTP
@@ -1212,9 +1212,9 @@ async def param_ws(websocket: WebSocket):
     await param_broadcaster.handle_ws(websocket)
 ```
 
-## 👿 Web Integration Anti-Patterns
+## 😧 Web Integration Anti-Patterns
 
-### 🤒 1. Blocking the ROS2 Executor from HTTP Handlers
+### 😆 1. Blocking the ROS2 Executor from HTTP Handlers
 
 **Problem:** Calling `rclpy.spin_once()` or `rclpy.spin_until_future_complete()` inside an HTTP handler blocks the web server thread and can deadlock if the ROS2 executor is already spinning in another thread.
 
@@ -1233,7 +1233,7 @@ def get_scan():
     return jsonify(node.get_latest_scan())  # Lock-protected read, non-blocking
 ```
 
-### 🤗 2. Streaming Raw Image Messages Over WebSocket
+### 😆 2. Streaming Raw Image Messages Over WebSocket
 
 **Problem:** Sending raw `sensor_msgs/Image` data (uncompressed BGR8, 640x480 = 921,600 bytes per frame) over WebSocket wastes bandwidth and CPU on the client. Base64 encoding inflates it to 1.2MB per frame.
 
@@ -1252,7 +1252,7 @@ self.create_subscription(
 await websocket.send_bytes(compressed_image_bytes)
 ```
 
-### 😵 3. No Rate Limiting on Sensor Subscriptions
+### 🥵 3. No Rate Limiting on Sensor Subscriptions
 
 **Problem:** A LiDAR publishing at 20Hz with 100K points per scan generates ~8MB/s of data. Forwarding every message to every WebSocket client saturates the network and browser.
 
@@ -1278,7 +1278,7 @@ async def stream_to_client(self, ws, max_hz=5):
         await asyncio.sleep(interval)
 ```
 
-### 😻 4. Running rosbridge in Production Without Auth
+### 🥴 4. Running rosbridge in Production Without Auth
 
 **Problem:** rosbridge_suite with default settings exposes every topic, service, and parameter to any WebSocket client. Any browser on the network can publish to `/cmd_vel` or call `/emergency_stop`.
 
@@ -1294,7 +1294,7 @@ ros2 launch rosbridge_server rosbridge_websocket_launch.xml \
     topics_glob:="['/camera/image/compressed', '/odom', '/cmd_vel']"
 ```
 
-### 😘 5. Synchronous Service Calls in Async Handlers
+### 😞 5. Synchronous Service Calls in Async Handlers
 
 **Problem:** Calling `service_client.call(request)` (synchronous) inside an `async def` FastAPI handler blocks the event loop, freezing all other requests until the service responds.
 
@@ -1317,7 +1317,7 @@ async def navigate(goal: NavGoal):
     return {"result": response.result}
 ```
 
-### 😹 6. GIL Contention Between Web Server and ROS2 Spinner
+### 😡 6. GIL Contention Between Web Server and ROS2 Spinner
 
 **Problem:** Running uvicorn with multiple worker threads and rclpy.spin in another thread causes GIL contention. Under high load, both the web server and ROS2 callbacks stall each other, leading to dropped messages and increased latency.
 
@@ -1337,7 +1337,7 @@ threading.Thread(target=executor.spin, daemon=True).start()
 uvicorn.run(app, workers=1, host="0.0.0.0", port=8080)
 ```
 
-### 🤫 7. No Connection Lifecycle Management
+### 🤢 7. No Connection Lifecycle Management
 
 **Problem:** WebSocket clients disconnect without sending a close frame (browser tab closed, network drop). The server keeps sending data to dead connections, wasting CPU and memory. Over time, the dead client set grows unbounded.
 
@@ -1380,7 +1380,7 @@ async def broadcast(data: dict):
     clients -= dead
 ```
 
-### 🧐 8. Exposing All Topics Unconditionally
+### 😢 8. Exposing All Topics Unconditionally
 
 **Problem:** The web bridge subscribes to every topic on the ROS2 graph and makes all of them available to web clients. This leaks internal system details (diagnostics, debug topics), wastes bandwidth, and creates a security risk.
 
@@ -1411,7 +1411,7 @@ async def allowed_topic(ws: WebSocket, topic_name: str):
     # Proceed with subscription
 ```
 
-## 😗 Web Integration Checklist
+## 😟 Web Integration Checklist
 
 1. **Thread separation**: rclpy executor runs in a dedicated background thread; the web server runs in the main thread or its own thread. They never share an event loop.
 2. **Shared state is lock-protected**: Every piece of data read by HTTP handlers and written by ROS2 callbacks is guarded by `threading.Lock()`. No bare attribute access across threads.

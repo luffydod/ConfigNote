@@ -1,6 +1,6 @@
-# 😸 ZSH终端配置
+# 🥲 ZSH终端配置
 
-## 🙃 install zsh
+## 😅 install zsh
 
 ```bash
 sudo apt install zsh -y
@@ -9,14 +9,14 @@ sudo apt install zsh -y
 chsh -s /bin/zsh
 ```
 
-## 😡 注意事项
+## 😻 注意事项
 
 - zsh 会对通配符（比如 *）进行 文件名扩展（globbing）
   - 解决1：用引号包裹通配符
   - 解决2：关闭 zsh 的 nomatch 检查 `setopt no_nomatch`
 - 1
 
-## 🤡 install oh-my-zsh
+## 😨 install oh-my-zsh
 
 [👾 site](https://ohmyz.sh/#install)
 
@@ -29,7 +29,7 @@ sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/ins
 sh -c "$(curl -fsSL https://gitee.com/pocmon/ohmyzsh/raw/master/tools/install.sh)
 ```
 
-## 😦 oh-my-zsh主题配置
+## 😈 oh-my-zsh主题配置
 
 ```bash
 # 编辑配置
@@ -43,7 +43,7 @@ source ~/.zshrc
 ls ~/.oh-my-zsh/themes
 ```
 
-### 🫢 powerlevel10k
+### 😧 powerlevel10k
 
 ```bash
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
@@ -54,7 +54,7 @@ git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$H
 
 在 ~/.zshrc 设置 ZSH_THEME="powerlevel10k/powerlevel10k"。接下来，终端会自动引导你配置 powerlevel10k。
 
-## 😶 oh-my-zsh插件
+## 😏 oh-my-zsh插件
 
 内置插件可以在 `~/.oh-my-zsh/plugins` 中查看，自定义插件可以安装到 `~/.oh-my-zsh/custom/plugins` 目录。
 
@@ -95,7 +95,7 @@ git clone https://github.com/paulirish/git-open.git ${ZSH_CUSTOM:-~/.oh-my-zsh/c
 git clone https://github.moeyy.xyz/https://github.com/paulirish/git-open.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/git-open
 ```
 
-## 🫡 zsh启用插件
+## 😾 zsh启用插件
 
 修改 `~/.zshrc` ：
 
