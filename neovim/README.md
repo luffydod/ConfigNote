@@ -1,8 +1,8 @@
-# 😧 NeoVim
+# 😄 NeoVim
 
 [🤮 帮助 - Neovim 文档 - Neovim 编辑器](https://neovim.fullstack.org.cn/doc/user/)
 
-## 😓 install on windows
+## 😆 install on windows
 
 [🥴 neovim/INSTALL.md at master · neovim/neovim](https://github.com/neovim/neovim/blob/master/INSTALL.md)
 
@@ -14,13 +14,13 @@
 git clone https://github.com/neovim/nvim-lspconfig C:/Users/ACEone/.config/nvim/pack/nvim/start/nvim-lspconfig
 ```
 
-## 😜 install on linux
+## 🥱 install on linux
 
 ```bash
 sudo apt-get install neovim
 ```
 
-## 🤖 base-config
+## 😊 base-config
 
 创建配置文件夹
 
@@ -28,7 +28,7 @@ sudo apt-get install neovim
 mkdir -p ~/.config/nvim
 ```
 
-## 🤗 lazyvim
+## 😲 lazyvim
 
 [🥵 🛠️ Installation | LazyVim](https://www.lazyvim.org/installation)
 

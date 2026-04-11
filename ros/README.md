@@ -1,6 +1,6 @@
-# 😇 ROS2
+# 🫥 ROS2
 
-## 😈 install
+## 😥 install
 
 1. 使用鱼香ros脚本安装
 
@@ -39,7 +39,7 @@ sudo apt install ros-${ROS_DISTRO}-ros2-control
 sudo apt install ros-${ROS_DISTRO}-gz-ros2-control
 ```
 
-## 😩 zsh
+## 🤑 zsh
 
 如果使用了 zsh 终端，原有的环境变量配置 `~/.bashrc` 要记得对应迁移到 `~/.zshrc`。
 此外，常见的更新项目环境变量要替换：
@@ -56,7 +56,7 @@ source /opt/ros/jazzy/setup.zsh
 source install/setup.zsh
 ```
 
-## 😸 Domain ID
+## 😫 Domain ID
 
 in `~/.bashrc`: 
 
