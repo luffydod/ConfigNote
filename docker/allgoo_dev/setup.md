@@ -1,6 +1,6 @@
-# 😞 Allgoo Dev
+# 🤡 Allgoo Dev
 
-## 🤢 FIX PATH
+## 😍 FIX PATH
 
 生成的可执行程序路径不在 `PATH` 中
 
@@ -19,7 +19,7 @@ Successfully installed allgoo-cli-0.8.16
 export PATH="/home/allgoo/.local/bin:${PATH}"
 ```
 
-## 😙 break system packages
+## 😷 break system packages
 
 ```bash
 allgoo@e86b61d14131:~/workspace/allgoo$ pip install -e .
@@ -51,7 +51,7 @@ hint: See PEP 668 for the detailed specification.
 export PIP_BREAK_SYSTEM_PACKAGES=1
 ```
 
-## 免密登录挂载姿势
+## 🤗 免密登录挂载姿势
 
 ssh 目录权限检查
 
