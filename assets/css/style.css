@@ -109,6 +109,7 @@ a:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1rem;
 }
 
 .logo {
@@ -151,6 +152,130 @@ a:hover {
     display: none;
 }
 
+/* Search */
+.search-wrap {
+    position: relative;
+    flex: 1;
+    max-width: 320px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.4rem 0.75rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-box:focus-within {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.search-icon {
+    color: var(--text-secondary);
+    flex-shrink: 0;
+}
+
+#search-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.875rem;
+    width: 100%;
+    min-width: 0;
+    transition: none;
+}
+
+#search-input::placeholder { color: var(--text-secondary); }
+
+.search-shortcut {
+    font-size: 0.7rem;
+    font-family: 'Fira Code', monospace;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    color: var(--text-secondary);
+    flex-shrink: 0;
+    transition: opacity 0.2s;
+}
+
+.search-box:focus-within .search-shortcut { opacity: 0; }
+
+.search-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    z-index: 200;
+    display: none;
+    animation: dropdownIn 0.15s ease;
+}
+
+.search-dropdown.open { display: block; }
+
+@keyframes dropdownIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.search-result-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0.7rem 1rem;
+    text-decoration: none;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+    transition: background 0.15s;
+    outline: none;
+}
+
+.search-result-item:last-child { border-bottom: none; }
+
+.search-result-item:hover,
+.search-result-item:focus {
+    background: var(--bg-primary);
+    color: var(--accent-color);
+}
+
+.search-result-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.search-result-path {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    font-family: 'Fira Code', monospace;
+}
+
+.search-result-item mark {
+    background: rgba(59, 130, 246, 0.2);
+    color: var(--accent-color);
+    border-radius: 2px;
+    padding: 0 1px;
+    font-style: normal;
+}
+
+.search-empty {
+    padding: 1rem;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
 /* Layout Container */
 .container {
     max-width: 1000px;
@@ -160,19 +285,34 @@ a:hover {
     width: 100%;
 }
 
-/* Views */
+/* Views — Priority 3: smooth fade + slide */
 .view {
-    display: none;
-    animation: fadeIn 0.4s ease forwards;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    display: block;
+    pointer-events: none;
 }
 
 .section-active {
-    display: block;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    animation: fadeSlideIn 0.35s ease forwards;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+.section-hidden {
+    opacity: 0;
+    transform: translateY(12px);
+    pointer-events: none;
+    /* collapse out of flow without display:none flash */
+    position: absolute;
+    left: -9999px;
+}
+
+@keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 /* Hero Section */
@@ -399,6 +539,24 @@ a:hover {
     position: relative;
 }
 
+/* Priority 1: Language label */
+.lang-label {
+    position: absolute;
+    top: 0.45rem;
+    left: 0.75rem;
+    font-size: 0.7rem;
+    font-family: 'Fira Code', monospace;
+    color: var(--code-text);
+    opacity: 0.45;
+    pointer-events: none;
+    user-select: none;
+    text-transform: lowercase;
+    letter-spacing: 0.05em;
+    transition: opacity 0.2s;
+}
+
+.markdown-body pre:hover .lang-label { opacity: 0.75; }
+
 .markdown-body pre:hover .copy-btn {
     opacity: 1;
 }
@@ -455,6 +613,15 @@ a:hover {
     line-height: 1.45;
 }
 
+/* Priority 4: External link icon */
+.ext-link-icon {
+    display: inline;
+    vertical-align: middle;
+    margin-left: 2px;
+    opacity: 0.6;
+    flex-shrink: 0;
+}
+
 /* Footer */
 .footer {
     text-align: center;
@@ -482,6 +649,12 @@ a:hover {
     .glass-panel {
         padding: 1.5rem;
     }
+
+    .search-wrap {
+        max-width: 160px;
+    }
+
+    .search-shortcut { display: none; }
 }
 
 /* TOC Sidebar Layout */
