@@ -1,6 +1,6 @@
-# 🫨 torch安装
+# 😈 torch安装
 
-## 😞 使用pip
+## 😻 使用pip
 
 [🙁 reference](https://pytorch.org/get-started/previous-versions/)
 
