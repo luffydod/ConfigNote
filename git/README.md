@@ -1,6 +1,6 @@
-# 🙊 git
+# 🙀 git
 
-## 😯 Git代码同步：本地开发+服务器运行
+## 🤮 Git代码同步：本地开发+服务器运行
 
 **裸仓库 + 自动化脚本（最规范、最稳定）**
 
@@ -105,7 +105,7 @@ vim /path/to/your/myproject.git/hooks/post-receive
 git --work-tree=/path/to/your/myproject --git-dir=/path/to/your/myproject.git checkout -f main
 ```
 
-## 👽 git 代理配置
+## 🫤 git 代理配置
 
 ```bash
 # 查看当前代理配置
@@ -120,7 +120,7 @@ git config --global --unset http.proxy
 git config --global --unset https.proxy
 ```
 
-### 🙁 1、加速域名前缀
+### 🙀 1、加速域名前缀
 
 ```bash
 
@@ -134,7 +134,7 @@ git clone https://gh.xmly.dev/https://github.com/*
 git clone https://gh.api.99988866.xyz/https://github.com/*
 ```
 
-### 🫠 2、持久配置
+### 🤬 2、持久配置
 
 ```bash
 # 替换 github.com 为镜像地址
@@ -142,7 +142,7 @@ git config --global url."https://gitclone.com/".insteadOf https://
 git clone https://github.com/user/repo.git
 ```
 
-## 🤥 git 配置 ssh 密钥
+## ☺️ git 配置 ssh 密钥
 
 1. 生成新的 ssh 密钥
 
@@ -185,7 +185,7 @@ Host github.com
 - `Host github.com`：这是一个别名，表示当你使用 <git@github.com> 时，自动匹配此配置。
 - `IdentityFile ~/.ssh/my_custom_ssh_key`：这是私钥的路径
 
-## 😑 clash verge规则配置
+## 🤩 clash verge规则配置
 
 问题：开启 `TUN` 模型下 git ssh 连接 22 或者 443 端口会拦截，导致 ssh 地址不通。
 
@@ -193,7 +193,7 @@ Host github.com
 
 - AND,((DOMAIN-SUFFIX,github.com),(DST-PORT,22)),DIRECT
 
-## 💩 强制 SSH 绕过代理
+## 😭 强制 SSH 绕过代理
 
 SSH 使用 443 端口连接 GitHub（这个端口通常比 22 端口更容易穿透代理/防火墙）。
 
@@ -212,7 +212,7 @@ Host github.com
 ssh -T git@github.com
 ```
 
-## 😐 git 批替换指定用户的提交信息
+## 🤖 git 批替换指定用户的提交信息
 
 ```sh
 pip install git-filter-repo

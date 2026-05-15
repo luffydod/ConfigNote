@@ -1,10 +1,10 @@
-# vibe coding
+# 🥺 vibe coding
 
-## Codex in WSL2
+## 😊 Codex in WSL2
 
 本文用于在 Windows 版 Codex 桌面端中，将项目运行环境配置为 WSL2，并使用 Linux sandbox。
 
-### 1. Codex 客户端设置
+### 😰 1. Codex 客户端设置
 
 在 Codex 桌面端中打开设置，建议配置如下：
 
@@ -25,7 +25,7 @@ Codex 在 Windows 上有两套 sandbox 路径：PowerShell/Windows native 下使
 
 ---
 
-### 2. 安装 WSL2 和 Ubuntu
+### 😃 2. 安装 WSL2 和 Ubuntu
 
 在 Windows PowerShell 中执行：
 
@@ -58,7 +58,7 @@ wsl --set-version Ubuntu 2
 
 ---
 
-### 3. 安装 Codex Linux sandbox 依赖
+### 🫢 3. 安装 Codex Linux sandbox 依赖
 
 进入 Ubuntu 后执行：
 
@@ -84,7 +84,7 @@ bwrap --version
 
 ---
 
-### 4. 可选：配置 sudo 免密
+### 😪 4. 可选：配置 sudo 免密
 
 如果希望 Codex 在 WSL 中执行需要 sudo 的命令时不反复要求输入密码，可以配置当前用户的 sudo 免密规则。
 
@@ -125,7 +125,7 @@ root
 
 ---
 
-## 5. 重置 WSL
+## 😲 5. 重置 WSL
 
 配置完成后，需要彻底重置一次 WSL。
 
@@ -145,7 +145,7 @@ wsl --shutdown
 
 ---
 
-## 6. Codex `config.toml` 推荐配置
+## 🤨 6. Codex `config.toml` 推荐配置
 
 建议不要写：
 
@@ -205,7 +205,7 @@ True
 
 说明路径没问题。
 
-## 8. 不建议同时配置 Windows 路径版本
+## 🙃 8. 不建议同时配置 Windows 路径版本
 
 你现在注释掉的这些可以继续保持注释：
 

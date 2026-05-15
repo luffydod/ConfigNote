@@ -1,14 +1,14 @@
-# 🫣 agent rules
+# 😇 agent rules
 
-## 💀 Github Copilot
+## 😪 Github Copilot
 
 GitHub Copilot 支持仓库级自定义说明，用来告诉 Copilot 如何理解项目，以及如何构建、测试、验证它生成的修改。官方入口文档是 [😒 Adding repository custom instructions for GitHub Copilot](https://docs.github.com/en/copilot/how-tos/configure-custom-instructions/add-repository-instructions)。
 
-### 😓 1. Copilot 支持的规则类型
+### 😡 1. Copilot 支持的规则类型
 
 Copilot 在仓库内主要支持 3 类说明文件。
 
-#### 🤪 1.1 仓库级说明
+#### 😖 1.1 仓库级说明
 
 - 作用范围：整个仓库。
 - 文件路径：`.github/copilot-instructions.md`
@@ -16,7 +16,7 @@ Copilot 在仓库内主要支持 3 类说明文件。
 
 这是最基础的一层，适合放所有目录都通用的规则。
 
-#### 😘 1.2 路径级说明
+#### 🥳 1.2 路径级说明
 
 - 作用范围：匹配到的文件或目录。
 - 文件路径：`.github/instructions/**/*.instructions.md`
@@ -61,7 +61,7 @@ excludeAgent: "code-review"
 
 如果不写 `excludeAgent`，则 Copilot code review 和 Copilot cloud agent 都会读取该说明。
 
-#### 😘 1.3 Agent instructions
+#### 🤨 1.3 Agent instructions
 
 - 作用范围：面向 AI agent。
 - 文件形态：`AGENTS.md`
@@ -75,9 +75,9 @@ excludeAgent: "code-review"
 
 这说明 GitHub Copilot 已经开始兼容更通用的 agent 约定，而不只限于 `copilot-instructions.md`。
 
-### 😕 2. 配置流程
+### 😓 2. 配置流程
 
-#### 😔 2.1 配置仓库级说明
+#### 🤬 2.1 配置仓库级说明
 
 1. 在仓库根目录创建 `.github/`。
 2. 新建 `.github/copilot-instructions.md`。
@@ -97,7 +97,7 @@ excludeAgent: "code-review"
 
 一句话理解：`copilot-instructions.md` 更像是给 Copilot 写的“项目入职手册”。
 
-#### 😖 2.2 配置路径级说明
+#### 😉 2.2 配置路径级说明
 
 1. 创建 `.github/instructions/`。
 2. 按用途创建一个或多个 `NAME.instructions.md`。
@@ -122,7 +122,7 @@ applyTo: "app/models/**/*.rb"
 - Python、TypeScript、Shell 的风格要求不同。
 - 某个目录有专门的测试、构建或部署要求。
 
-#### 😵 2.3 配置 Agent instructions
+#### 😹 2.3 配置 Agent instructions
 
 1. 在仓库根目录或子目录放置 `AGENTS.md`。
 2. 如果希望不同子目录有不同 agent 行为，可以放多个。
@@ -130,9 +130,9 @@ applyTo: "app/models/**/*.rb"
 
 这种方式更像是“目录级 agent 行为覆盖”，适合大型仓库或 monorepo。
 
-### 😥 3. 生效规则与优先级
+### 😧 3. 生效规则与优先级
 
-#### 😛 3.1 多类说明可叠加
+#### 😯 3.1 多类说明可叠加
 
 同一次请求里，可能会同时命中多种说明：
 
@@ -148,7 +148,7 @@ applyTo: "app/models/**/*.rb"
 
 不过注意，这不代表低优先级说明会被完全忽略，而是它们会一起提供给 Copilot。因此实践上应尽量避免互相冲突的规则。
 
-#### 🥲 3.2 路径级与仓库级可同时命中
+#### 😟 3.2 路径级与仓库级可同时命中
 
 如果某个文件同时命中：
 
@@ -157,17 +157,17 @@ applyTo: "app/models/**/*.rb"
 
 那么两者都会参与上下文。
 
-#### 🤗 3.3 AGENTS.md 就近优先
+#### 🤯 3.3 AGENTS.md 就近优先
 
 `AGENTS.md` 采用“最近目录优先”的思路，不是简单全局合并。这点和 `.github/copilot-instructions.md` 的全仓库规则不同。
 
-### 😙 4. 在哪里查看是否生效
+### 😦 4. 在哪里查看是否生效
 
 - 在 GitHub Copilot Chat 中，如果仓库级自定义说明生效，响应顶部的 references 里会出现对应说明文件。
 - 在 GitHub.com 的 Copilot Chat 中，可以把仓库作为附件加入会话，让仓库说明自动参与上下文。
 - 自定义说明文件保存后立即可用，不需要额外编译或启用。
 
-### 😉 5. Code Review 的开关
+### 😭 5. Code Review 的开关
 
 对 Copilot code review 来说，自定义说明默认启用，但可以在仓库设置中关闭或重新打开。
 
@@ -180,7 +180,7 @@ applyTo: "app/models/**/*.rb"
 
 官方还特别说明：PR review 时，Copilot 读取的是目标 base branch 上的说明文件，而不是当前 feature branch 的说明文件。
 
-### 😞 6. 实践建议
+### 😢 6. 实践建议
 
 - 仓库级说明写“稳定、长期、全局”的规则。
 - 路径级说明写“目录、语言、模块专属”的规则。
@@ -188,7 +188,7 @@ applyTo: "app/models/**/*.rb"
 - 说明尽量写清楚命令顺序、环境前提、常见报错和 workaround。
 - 避免写任务级、一次性的临时要求，否则说明会很快失真。
 
-### 😪 7. 一个推荐的最小结构
+### 😫 7. 一个推荐的最小结构
 
 ```text
 .github/
@@ -206,7 +206,7 @@ src/
 - 用 `.github/instructions/` 放按路径匹配的补充规则。
 - 在复杂子目录里补充 `AGENTS.md`。
 
-### 😎 8. 和 skills 的关系
+### 👻 8. 和 skills 的关系
 
 从 GitHub 当前这篇官方文档看，重点还是：
 
@@ -222,17 +222,17 @@ src/
 - Cursor 的 rules / project rules / agent / memories / skills 风格
 - 两者在“全局规则、路径规则、目录级覆盖、工作流封装”上的差异
 
-## 😰 Cursor
+## 🥸 Cursor
 
 [☠️ Cursor rules](https://cursor.com/cn/docs/rules)
 
 Cursor 把这套能力统一称为 rules。规则本质上是提供给 Agent 的系统级持久指令，用来沉淀团队约束、项目知识、常见工作流和模板。
 
-### 😺 1. Cursor 支持的规则类型
+### 💩 1. Cursor 支持的规则类型
 
 Cursor 官方目前主要提到 4 类规则来源。
 
-#### 👺 1.1 项目规则
+#### 😚 1.1 项目规则
 
 - 作用范围：当前仓库。
 - 存放位置：`.cursor/rules/`
@@ -241,7 +241,7 @@ Cursor 官方目前主要提到 4 类规则来源。
 
 这是 Cursor 里最核心的规则形态，适合团队协作时共享。
 
-#### 😢 1.2 用户规则
+#### 🙂 1.2 用户规则
 
 - 作用范围：当前用户的所有项目。
 - 配置位置：Cursor Settings -> Rules。
@@ -250,7 +250,7 @@ Cursor 官方目前主要提到 4 类规则来源。
 
 例如：要求回复简洁、避免重复、默认使用某种表达方式等。
 
-#### 🫠 1.3 团队规则
+#### 🥲 1.3 团队规则
 
 - 作用范围：整个团队或组织。
 - 管理位置：Cursor 仪表盘。
@@ -259,7 +259,7 @@ Cursor 官方目前主要提到 4 类规则来源。
 
 团队规则支持管理员统一下发，也可以设置为强制执行。
 
-#### 😸 1.4 AGENTS.md
+#### 😠 1.4 AGENTS.md
 
 - 作用范围：项目根目录或子目录。
 - 文件形态：纯 Markdown。
@@ -267,7 +267,7 @@ Cursor 官方目前主要提到 4 类规则来源。
 
 如果项目不想维护带 frontmatter 的规则文件，只想给 Agent 一份简单直接的说明，`AGENTS.md` 是更轻量的入口。
 
-### 😃 2. 规则如何工作
+### 🤓 2. 规则如何工作
 
 Cursor 的规则本质上是“提示词层的持久上下文”。
 
@@ -275,7 +275,7 @@ Cursor 的规则本质上是“提示词层的持久上下文”。
 
 一句话理解：规则不是给人看的备忘录，而是给 Agent 注入稳定上下文的机制。
 
-### 🤨 3. 项目规则的目录与结构
+### 😟 3. 项目规则的目录与结构
 
 项目规则放在 `.cursor/rules/` 下，支持 `.md` 和 `.mdc` 两种扩展名。
 
@@ -297,7 +297,7 @@ Cursor 的规则本质上是“提示词层的持久上下文”。
 
 官方特别强调：如果需要更精细控制规则的触发条件，应优先使用 `.mdc`。
 
-### 😥 4. 规则文件格式
+### 😜 4. 规则文件格式
 
 Cursor 规则本质上是一个 Markdown 文件，通常由两部分组成：
 
@@ -335,34 +335,34 @@ alwaysApply: false
 - `globs`：控制规则按哪些路径生效。
 - `alwaysApply`：是否对每个聊天会话都生效。
 
-### 🫨 5. 项目规则的应用方式
+### 💩 5. 项目规则的应用方式
 
 Cursor 官方把项目规则分成几种典型应用方式。
 
-#### 😜 5.1 Always Apply
+#### 😬 5.1 Always Apply
 
 - 含义：每个聊天会话都应用。
 - 适合内容：项目通用约束、统一架构原则、团队必守习惯。
 
-#### 😧 5.2 Apply Intelligently
+#### 🙄 5.2 Apply Intelligently
 
 - 含义：由 Agent 根据 `description` 判断是否相关。
 - 适合内容：有明确主题，但不需要每次都加载的规则。
 
-#### 🥰 5.3 Apply to Specific Files
+#### 😨 5.3 Apply to Specific Files
 
 - 含义：当上下文中的文件匹配指定 `globs` 时生效。
 - 适合内容：前后端分离规则、特定语言规则、某个模块的开发规范。
 
-#### 😚 5.4 Apply Manually
+#### 😔 5.4 Apply Manually
 
 - 含义：只有在聊天中手动 `@规则名` 时才应用。
 - 示例：`@my-rule`
 - 适合内容：偶发性工作流、脚手架模板、一次特定类型的任务。
 
-### 😰 6. 创建项目规则的方式
+### 😙 6. 创建项目规则的方式
 
-#### 😕 6.1 在对话里用 /create-rule
+#### 😨 6.1 在对话里用 /create-rule
 
 1. 在 Agent 对话中输入 `/create-rule`
 2. 描述你要沉淀的规则需求
@@ -370,7 +370,7 @@ Cursor 官方把项目规则分成几种典型应用方式。
 
 这种方式适合先把反复出现的问题快速沉淀成规则。
 
-#### 😝 6.2 在设置里手动创建
+#### 😷 6.2 在设置里手动创建
 
 1. 打开 Cursor Settings -> Rules, Commands
 2. 点击 `+ Add Rule`
@@ -379,7 +379,7 @@ Cursor 官方把项目规则分成几种典型应用方式。
 
 这种方式更适合手工维护已有规则体系。
 
-### 😟 7. 如何写出有效的 Cursor 规则
+### 🤠 7. 如何写出有效的 Cursor 规则
 
 官方给出的方向比较明确，核心是“聚焦、明确、可执行”。
 
@@ -401,7 +401,7 @@ Cursor 官方把项目规则分成几种典型应用方式。
 
 一句话理解：只有当 Agent 在同一类事情上反复犯错时，才值得专门加规则。
 
-### 😺 8. 团队规则
+### 😷 8. 团队规则
 
 团队规则主要面向 Team 和 Enterprise 方案，由管理员在 Cursor 仪表盘中创建和管理。
 
@@ -415,7 +415,7 @@ Cursor 官方把项目规则分成几种典型应用方式。
 
 团队规则的定位更像组织级治理层，用来确保所有项目都遵循统一标准。
 
-### 😃 9. 规则优先级
+### 😣 9. 规则优先级
 
 根据你给的文档，Cursor 的优先级顺序是：
 
@@ -427,7 +427,7 @@ Cursor 官方把项目规则分成几种典型应用方式。
 
 这点和很多人的直觉不同，因为 Cursor 这里并不是“用户设置优先于项目设置”，而是明确把团队规则放在最前面。
 
-### 😬 10. 导入规则
+### 🤑 10. 导入规则
 
 Cursor 支持从 GitHub 仓库导入远程规则。
 
@@ -441,7 +441,7 @@ Cursor 支持从 GitHub 仓库导入远程规则。
 
 官方描述里强调，导入后的远程规则会和源仓库保持同步，因此适合复用外部成熟规则集。
 
-### 😌 11. AGENTS.md 的定位
+### 😦 11. AGENTS.md 的定位
 
 Cursor 也支持 `AGENTS.md`，它和项目规则的区别主要在于：
 
@@ -467,7 +467,7 @@ Cursor 也支持 `AGENTS.md`，它和项目规则的区别主要在于：
 
 如果项目规模较小，或者你只想快速给 Agent 一份清晰的人类可读说明，那么 `AGENTS.md` 会比 `.cursor/rules/*.mdc` 更轻。
 
-### 😉 12. 用户规则的定位
+### 😘 12. 用户规则的定位
 
 用户规则是你在 Cursor Settings -> Rules 中设置的个人全局偏好，适用于所有项目。
 
@@ -486,7 +486,7 @@ Please reply in a concise style. Avoid unnecessary repetition or filler language
 
 它更像“你和 Agent 的个人协作习惯”，而不是项目规范。
 
-### 🫨 13. 一个推荐的最小结构
+### 😅 13. 一个推荐的最小结构
 
 ```text
 .cursor/
@@ -503,7 +503,7 @@ AGENTS.md
 - 用 `frontend.mdc` 和 `backend.mdc` 放按目录或技术栈拆分的规则。
 - 用根目录 `AGENTS.md` 放更高可读性的项目说明。
 
-### 🤒 14. 和 Copilot 的对照理解
+### 👹 14. 和 Copilot 的对照理解
 
 如果只看这两套体系，可以先这样对应理解：
 
@@ -514,7 +514,7 @@ AGENTS.md
 
 两者共同点是都在做“给 Agent 持久注入上下文”，差别在于 Cursor 把规则系统做得更产品化，也更强调 settings、dashboard 和规则导入能力。
 
-### 😡 15. 实践建议
+### 😐 15. 实践建议
 
 - 把高频重复提示沉淀成项目规则，而不是每次重说。
 - 把稳定的组织规范放到团队规则，不要散落在个人习惯里。
